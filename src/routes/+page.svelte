@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
+	import { signIn } from '@auth/sveltekit/client';
 
 	export let data;
 	export let form;
@@ -17,6 +18,8 @@
 		{/each}
 	</ul>
 {/await}
+
+<button on:click={() => signIn()}>Sign In (Client)</button>
 
 <form method="POST" action="?/create" use:enhance>
 	<label>
