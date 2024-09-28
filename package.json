@@ -6,6 +6,10 @@
 		"dev": "vite dev",
 		"build": "vite build",
 		"preview": "vite preview",
+		"sync": "svelte-kit sync",
+		"introspect": "drizzle-kit generate",
+		"migrate": "drizzle-kit generate",
+		"studio": "drizzle-kit studio",
 		"test": "npm run test:integration && npm run test:unit",
 		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
@@ -20,6 +24,9 @@
 		"@sveltejs/kit": "^2.0.0",
 		"@sveltejs/vite-plugin-svelte": "^3.0.0",
 		"@types/eslint": "^9.6.0",
+		"@vercel/postgres": "^0.10.0",
+		"drizzle-kit": "^0.24.2",
+		"drizzle-orm": "^0.33.0",
 		"eslint": "^9.0.0",
 		"eslint-config-prettier": "^9.1.0",
 		"eslint-plugin-svelte": "^2.36.0",
@@ -33,5 +40,8 @@
 		"vite": "^5.0.3",
 		"vitest": "^2.0.0"
 	},
-	"type": "module"
+	"type": "module",
+	"dependencies": {
+		"dotenv": "^16.4.5"
+	}
 }
