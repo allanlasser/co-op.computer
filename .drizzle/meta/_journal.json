@@ -5,15 +5,8 @@
     {
       "idx": 0,
       "version": "7",
-      "when": 1727479195872,
-      "tag": "0000_narrow_sister_grimm",
-      "breakpoints": true
-    },
-    {
-      "idx": 1,
-      "version": "7",
-      "when": 1727480677741,
-      "tag": "0001_productive_tusk",
+      "when": 1728069019635,
+      "tag": "0000_clean_guardsmen",
       "breakpoints": true
     }
   ]
