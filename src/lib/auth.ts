@@ -1,14 +1,18 @@
 import { getUser, type User } from '$lib/db/users';
 import { type Nullable } from '$lib/utils/types';
-import { SvelteKitAuth, type DefaultSession } from '@auth/sveltekit';
+import { SvelteKitAuth } from '@auth/sveltekit';
 import Credentials from '@auth/sveltekit/providers/credentials';
-import { hash } from 'argon2';
 import { signInSchema } from './zod';
 import { ZodError } from 'zod';
+import { config } from 'dotenv';
+
+const isTest = process.env.NODE_ENV === 'test';
+const envPath = isTest ? '.env.test' : '.env.development.local';
+config({ path: envPath });
 
 declare module '@auth/sveltekit' {
 	interface Session {
-		user: User & DefaultSession['user'];
+		user: User;
 	}
 }
 
@@ -23,8 +27,7 @@ export const { signIn, signOut, handle } = SvelteKitAuth({
 				try {
 					let user: Nullable<User> = null;
 					const { email, password } = await signInSchema.parseAsync(credentials);
-					const pwHash = await hash(password);
-					[user] = await getUser(email, pwHash);
+					[user] = await getUser(email, password);
 					if (!user) throw new Error('User not found.');
 					return user;
 				} catch (error) {
@@ -35,5 +38,6 @@ export const { signIn, signOut, handle } = SvelteKitAuth({
 				}
 			}
 		})
-	]
+	],
+	secret: process.env.AUTH_SECRET
 });

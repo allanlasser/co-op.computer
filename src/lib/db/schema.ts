@@ -1,5 +1,5 @@
 import { sql } from 'drizzle-orm';
-import { text, pgTable, uuid, timestamp } from 'drizzle-orm/pg-core';
+import { text, pgTable, uuid } from 'drizzle-orm/pg-core';
 
 export const Users = pgTable('users', {
 	id: uuid('id')
@@ -8,9 +8,7 @@ export const Users = pgTable('users', {
 		.default(sql`gen_random_uuid()`), // Generate a UUID by default
 	email: text('email').notNull().unique(),
 	username: text('username').notNull().unique(),
-	password: text('password').notNull(),
-	emailVerified: timestamp('emailVerified', { mode: 'date' }),
-	image: text('image')
+	password: text('password').notNull()
 });
 
 export const Tools = pgTable('tools', {
