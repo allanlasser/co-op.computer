@@ -1,5 +1,5 @@
 import { sql } from 'drizzle-orm';
-import { text, pgTable, uuid } from 'drizzle-orm/pg-core';
+import { text, pgTable, uuid, serial } from 'drizzle-orm/pg-core';
 
 export const Users = pgTable('users', {
 	id: uuid('id')
@@ -8,7 +8,8 @@ export const Users = pgTable('users', {
 		.default(sql`gen_random_uuid()`), // Generate a UUID by default
 	email: text('email').notNull().unique(),
 	username: text('username').notNull().unique(),
-	password: text('password').notNull()
+	password: text('password').notNull(),
+	ordinal: serial('ordinal').notNull() // your user number, for fun
 });
 
 export type User = typeof Users.$inferSelect;
