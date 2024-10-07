@@ -1,7 +1,7 @@
 import { getTools, createTool } from '$lib/db/tools';
 
 export async function load(event) {
-	const session = await event.locals.auth();
+	const session = event.locals.session;
 	return {
 		session,
 		tools: getTools()

@@ -1,4 +1,6 @@
 <script lang="ts">
+	export let form;
+
 	let email = '';
 	let password = '';
 </script>
@@ -14,3 +16,6 @@
 	</label>
 	<button type="submit">Sign In</button>
 </form>
+{#if form?.errors}
+	{JSON.stringify(form.errors, null, 2)}
+{/if}

@@ -12,8 +12,8 @@
 
 {#if user}
 	<div class="flex">
-		<p>Hi {user.username}</p>
-		<a class="button" href="/account/signout">Sign Out</a>
+		<p>hi {user.username}</p>
+		<a class="button" href="/account/signout" data-sveltekit-reload>Sign Out</a>
 	</div>
 {:else}
 	<div class="flex">
@@ -47,5 +47,6 @@
 	.flex {
 		display: flex;
 		gap: 1rem;
+		align-items: baseline;
 	}
 </style>

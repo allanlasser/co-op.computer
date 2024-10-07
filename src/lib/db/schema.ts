@@ -11,6 +11,8 @@ export const Users = pgTable('users', {
 	password: text('password').notNull()
 });
 
+export type User = typeof Users.$inferSelect;
+
 export const Tools = pgTable('tools', {
 	id: uuid('id')
 		.notNull()
