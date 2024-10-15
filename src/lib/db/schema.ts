@@ -20,10 +20,11 @@ export type User = typeof Users.$inferSelect;
 
 export const Tools = pgTable('tools', {
 	id: uuid('id')
+		.primaryKey()
 		.notNull()
 		.default(sql`gen_random_uuid()`), // Generate a UUID by default
 	name: text('name').notNull(),
-	ownerId: uuid('owner_id')
+	ownerId: uuid('owner_id').references(() => Users.id)
 });
 
 export const ToolsRelations = relations(Tools, ({ one }) => ({
