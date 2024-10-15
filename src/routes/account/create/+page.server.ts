@@ -1,8 +1,15 @@
 import { createUser } from '$lib/db/users';
-import { createJWT, setAuthToken } from '$lib/utils/auth';
+import { createJWT, getAuthPayload, setAuthToken } from '$lib/utils/auth';
 import { formDataToObject } from '$lib/utils/types';
 import { signUpSchema } from '$lib/zod';
 import { fail, redirect } from '@sveltejs/kit';
+
+export async function load({ cookies, url }) {
+	if (getAuthPayload({ cookies })) {
+		const nextUrl = url.searchParams.get('then') ?? '/';
+		return redirect(301, nextUrl);
+	}
+}
 
 export const actions = {
 	default: async ({ request, cookies }) => {
@@ -20,7 +27,6 @@ export const actions = {
 		// sign them in by creating and setting a JWT
 		const token = createJWT(user);
 		setAuthToken({ cookies, token });
-		// redirect to the homepage
-		redirect(301, '/');
+		return { success: true };
 	}
 };

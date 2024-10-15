@@ -27,6 +27,7 @@
 <style>
 	.page {
 		margin: calc(4 * var(--unit)) auto;
+		width: 100%;
 		max-width: 64rem;
 	}
 	form {

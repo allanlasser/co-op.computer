@@ -4,9 +4,10 @@ import { authenticateUser } from '$lib/db/users';
 import { createJWT, getAuthPayload, setAuthToken } from '$lib/utils/auth';
 import { formDataToObject } from '$lib/utils/types';
 
-export async function load({ cookies }) {
+export async function load({ cookies, url }) {
 	if (getAuthPayload({ cookies })) {
-		return redirect(301, '/');
+		const nextUrl = url.searchParams.get('then') ?? '/';
+		return redirect(301, nextUrl);
 	}
 }
 
@@ -32,7 +33,6 @@ export const actions = {
 		// sign them in by creating and setting a JWT
 		const token = createJWT(user);
 		setAuthToken({ cookies, token });
-		// redirect to the homepage
-		redirect(301, '/');
+		return { success: true };
 	}
 };
