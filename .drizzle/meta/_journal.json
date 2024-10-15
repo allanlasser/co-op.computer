@@ -15,6 +15,13 @@
       "when": 1728317125736,
       "tag": "0001_youthful_wither",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1729008936876,
+      "tag": "0002_overjoyed_arclight",
+      "breakpoints": true
     }
   ]
 }
