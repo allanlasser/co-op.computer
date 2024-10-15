@@ -6,6 +6,6 @@
 	.page {
 		background: var(--background);
 		width: 100%;
-		margin: 2rem;
+		padding: 2rem;
 	}
 </style>

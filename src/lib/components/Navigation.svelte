@@ -38,6 +38,7 @@
 		align-items: baseline;
 	}
 	nav {
+		flex: 0 1 auto;
 		display: flex;
 		flex-wrap: wrap;
 		align-items: center;

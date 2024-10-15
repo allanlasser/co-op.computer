@@ -26,6 +26,7 @@
 <style>
 	.tools {
 		margin: 2rem auto;
+		width: 100%;
 		max-width: 64rem;
 	}
 

@@ -4,6 +4,7 @@
 
 <style>
 	.fullScreen {
+		flex: 1 1 auto;
 		min-width: 100%;
 		min-height: 100%;
 	}
