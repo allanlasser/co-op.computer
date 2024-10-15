@@ -1,8 +1,17 @@
+import { eq } from 'drizzle-orm';
 import { db } from '$lib/db';
-import { Tools } from '$lib/db/schema';
+import { Tools, Users } from '$lib/db/schema';
 
 export async function getTools() {
-	return db.select().from(Tools);
+	return db.select().from(Tools).innerJoin(Users, eq(Tools.ownerId, Users.id));
+}
+
+export async function getToolsForOwner(ownerId: string) {
+	return db
+		.select()
+		.from(Tools)
+		.where(eq(Tools.ownerId, ownerId))
+		.innerJoin(Users, eq(Tools.ownerId, Users.id));
 }
 
 export async function createTool(newTool: typeof Tools.$inferInsert) {
