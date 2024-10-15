@@ -1,5 +1,13 @@
-import { fail } from '@sveltejs/kit';
+import { fail, redirect } from '@sveltejs/kit';
 import { createTool } from '$lib/db/tools';
+
+export async function load(event) {
+	const session = event.locals.session;
+	if (!session) {
+		return redirect(302, '/account/signin');
+	}
+	return {};
+}
 
 export const actions = {
 	default: async ({ request, locals }) => {
