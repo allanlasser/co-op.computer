@@ -5,17 +5,44 @@
 	let password = '';
 </script>
 
-<form method="POST">
-	<label>
-		Email
-		<input type="email" name="email" bind:value={email} />
-	</label>
-	<label>
-		Password
-		<input type="password" name="password" bind:value={password} />
-	</label>
-	<button type="submit">Sign In</button>
-</form>
-{#if form?.errors}
-	{JSON.stringify(form.errors, null, 2)}
-{/if}
+<div class="card">
+	<header>
+		<h1>Sign In</h1>
+		<p>Need an account? <a href="/account/create">Sign Up</a></p>
+	</header>
+	{#if form?.errors}
+		{JSON.stringify(form.errors, null, 2)}
+	{/if}
+	<form method="POST">
+		<label>
+			Email
+			<input type="email" name="email" bind:value={email} />
+		</label>
+		<label>
+			Password
+			<input type="password" name="password" bind:value={password} />
+		</label>
+		<footer>
+			<button type="submit">Sign In</button>
+		</footer>
+	</form>
+</div>
+
+<style>
+	.card {
+		width: 100%;
+		max-width: 32rem;
+	}
+	header {
+		display: flex;
+		flex-wrap: wrap;
+		gap: calc(2 * var(--unit));
+		justify-content: space-between;
+		align-items: baseline;
+	}
+	form {
+		display: flex;
+		flex-direction: column;
+		gap: calc(2 * var(--unit));
+	}
+</style>
