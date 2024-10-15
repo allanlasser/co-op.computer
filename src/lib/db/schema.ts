@@ -9,7 +9,8 @@ export const Users = pgTable('users', {
 	email: text('email').notNull().unique(),
 	username: text('username').notNull().unique(),
 	password: text('password').notNull(),
-	ordinal: serial('ordinal').notNull() // your user number, for fun
+	ordinal: serial('ordinal').notNull(), // your user number, for fun
+	createdAt: timestamp('createdAt').defaultNow()
 });
 
 export const UsersRelations = relations(Users, ({ many }) => ({
