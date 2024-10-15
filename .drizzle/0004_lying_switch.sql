@@ -1,0 +1,1 @@
+ALTER TABLE "tools" ADD COLUMN "createdAt" timestamp DEFAULT now();

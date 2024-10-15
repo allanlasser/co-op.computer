@@ -1,5 +1,5 @@
 import { sql, relations } from 'drizzle-orm';
-import { text, pgTable, uuid, serial } from 'drizzle-orm/pg-core';
+import { text, pgTable, uuid, serial, timestamp } from 'drizzle-orm/pg-core';
 
 export const Users = pgTable('users', {
 	id: uuid('id')
@@ -24,6 +24,7 @@ export const Tools = pgTable('tools', {
 		.notNull()
 		.default(sql`gen_random_uuid()`), // Generate a UUID by default
 	name: text('name').notNull(),
+	createdAt: timestamp('createdAt').defaultNow(),
 	ownerId: uuid('owner_id').references(() => Users.id)
 });
 
