@@ -10,7 +10,7 @@
 			{#each results as result}
 				<li>
 					<div class="tool">
-						<h2>{result.tools.name}</h2>
+						<h4>{result.tools.name}</h4>
 						<p class="owner">{result.users.username}</p>
 					</div>
 				</li>
@@ -37,7 +37,7 @@
 		gap: calc(2 * var(--unit));
 	}
 
-	h2 {
+	h4 {
 		font-size: var(--font-lg);
 	}
 
