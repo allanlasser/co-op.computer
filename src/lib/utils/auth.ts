@@ -1,5 +1,5 @@
 import jwt, { type JwtPayload } from 'jsonwebtoken';
-import type { Cookies } from '@sveltejs/kit';
+import { redirect, type Cookies, type RequestEvent } from '@sveltejs/kit';
 import { type User } from '$lib/db/schema';
 
 export const AUTH_COOKIE = 'AuthorizationToken';
@@ -44,4 +44,12 @@ export function clearAuthToken({ cookies }: { cookies: Cookies }): void {
 	cookies.delete(AUTH_COOKIE, {
 		path: '/'
 	});
+}
+
+export function requireAuth(event: RequestEvent) {
+	const session = event.locals.session;
+	const nextUrl = event.url.pathname;
+	if (!session) {
+		throw redirect(302, `/account/signin?then=${encodeURIComponent(nextUrl)}`);
+	}
 }

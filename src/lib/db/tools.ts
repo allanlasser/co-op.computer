@@ -21,3 +21,12 @@ export async function getToolsForOwner(ownerId: string) {
 export async function createTool(newTool: typeof Tools.$inferInsert) {
 	return db.insert(Tools).values(newTool).returning();
 }
+
+export async function updateTool(tool: Partial<typeof Tools.$inferSelect>) {
+	if (!tool.id) throw TypeError('Missing Tool ID');
+	return db.update(Tools).set(tool).where(eq(Tools.id, tool.id)).returning();
+}
+
+export async function deleteTool(id: string) {
+	return db.delete(Tools).where(eq(Tools.id, id));
+}
