@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { getToolPath } from '$lib/utils/routes';
+
 	export let data;
 
 	$: user = data.session.user;
@@ -13,7 +15,7 @@
 			{#each results as result}
 				<li>
 					<div class="tool">
-						<h4>{result.tools.name}</h4>
+						<h4><a href={getToolPath(result.tools)}>{result.tools.name}</a></h4>
 						<p class="owner">{result.users.username}</p>
 					</div>
 				</li>

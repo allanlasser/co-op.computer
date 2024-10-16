@@ -122,3 +122,9 @@ a {
 	border: 1px solid var(--green-1);
 	border-radius: var(--br-3);
 }
+
+.page {
+	margin: 2rem auto;
+	width: 100%;
+	max-width: 64rem;
+}

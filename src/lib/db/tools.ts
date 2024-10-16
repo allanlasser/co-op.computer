@@ -2,6 +2,10 @@ import { eq } from 'drizzle-orm';
 import { db } from '$lib/db';
 import { Tools, Users } from '$lib/db/schema';
 
+export async function getTool(uuid: string) {
+	return db.selectDistinct().from(Tools).where(eq(Tools.id, uuid));
+}
+
 export async function getTools() {
 	return db.select().from(Tools).innerJoin(Users, eq(Tools.ownerId, Users.id));
 }
