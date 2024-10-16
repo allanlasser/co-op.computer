@@ -35,3 +35,5 @@ export const ToolsRelations = relations(Tools, ({ one }) => ({
 		references: [Users.id]
 	})
 }));
+
+export type Tool = typeof Tools.$inferSelect;
