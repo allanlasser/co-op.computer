@@ -1,4 +1,5 @@
 import { getToolsForOwner } from '$lib/db/tools.js';
+import { getGroupsForUser } from '$lib/db/usersToGroups.js';
 import { redirect } from '@sveltejs/kit';
 
 export async function load(event) {
@@ -9,6 +10,7 @@ export async function load(event) {
 	}
 	return {
 		session,
-		tools: getToolsForOwner(session.user.id)
+		tools: getToolsForOwner(session.user.id),
+		groups: getGroupsForUser(session.user.id)
 	};
 }

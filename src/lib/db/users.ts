@@ -14,6 +14,14 @@ export async function getUser(id: string, email: string) {
 		.where(and(eq(Users.id, id), eq(Users.email, email)));
 }
 
+export async function getUserByEmail(email: string): Promise<Maybe<User>> {
+	const [user] = await db
+		.selectDistinct()
+		.from(Users)
+		.where(and(eq(Users.email, email)));
+	return user;
+}
+
 export async function authenticateUser(email: string, password: string) {
 	const ret: { data: Maybe<User>; errors: Maybe<Array<string>> } = {
 		data: undefined,

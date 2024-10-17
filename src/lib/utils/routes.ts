@@ -1,4 +1,4 @@
-import type { Tool } from '$lib/db/schema';
+import type { Group, Tool } from '$lib/db/schema';
 import shortUUID from 'short-uuid';
 
 export function shortenUUID(uuid: string) {
@@ -9,6 +9,10 @@ export function shortenUUID(uuid: string) {
 export function enlargeUUID(shortId: string): string {
 	const translator = shortUUID();
 	return translator.toUUID(shortId);
+}
+
+export function getGroupPath(group: Group) {
+	return `/groups/${shortenUUID(group.id)}`;
 }
 
 export function getToolPath(tool: Tool) {

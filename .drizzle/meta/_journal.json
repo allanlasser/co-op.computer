@@ -43,6 +43,13 @@
       "when": 1729028965197,
       "tag": "0005_amusing_golden_guardian",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1729205236016,
+      "tag": "0006_peaceful_firelord",
+      "breakpoints": true
     }
   ]
 }
