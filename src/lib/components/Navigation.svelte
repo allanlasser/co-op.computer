@@ -7,15 +7,9 @@
 
 <nav>
 	<a class="home" href="/">
-		<h1>commonplace.tools</h1>
-		<p>distributed toolshare library</p>
+		<h1>co<span class="hyphen">-</span>op</h1>
+		<p>.computer</p>
 	</a>
-
-	<ul>
-		<li><a href="/tools">Find Tool</a></li>
-		<li><a href="/tools/new">Contribute</a></li>
-	</ul>
-
 	<div class="account">
 		{#if user}
 			<div class="flex">
@@ -45,34 +39,34 @@
 		justify-content: space-between;
 		gap: calc(3 * var(--unit));
 		padding: var(--unit) calc(2 * var(--unit));
-		border-bottom: 1px solid var(--gray-1);
+		/* border-right: 2px solid var(--gray-1); */
 	}
 	nav a {
 		text-decoration: none;
 	}
-	nav ul {
-		flex: 1 1 auto;
-		display: inline-flex;
-		gap: calc(3 * var(--unit));
-		align-items: baseline;
-		list-style-type: none;
-	}
-	nav ul li a {
-		font-weight: var(--font-semi);
-	}
 	.home {
-		color: inherit;
 		text-decoration: none;
+		padding: 0.25rem 0.5rem;
+		border-radius: var(--br-3);
+		border: 2px solid transparent;
 		&:hover,
 		&:focus {
-			color: var(--green-3);
+			border: 2px solid var(--gray-2);
+			box-shadow: 0 2px 0 var(--gray-2);
+		}
+		&:active {
+			transform: translateY(2px);
+			box-shadow: none;
 		}
 	}
 	.home h1 {
-		font-size: var(--font-lg);
+		font-size: var(--font-xl);
+		font-weight: var(--font-bold);
+		text-transform: uppercase;
 	}
 	.home p {
 		font-size: var(--font-xs);
+		font-weight: var(--font-semi);
 		opacity: var(--o-70);
 	}
 	.account {
@@ -81,5 +75,8 @@
 		gap: var(--unit);
 		font-size: var(--font-md);
 		font-weight: var(--font-semi);
+	}
+	.hyphen {
+		display: inline-block;
 	}
 </style>

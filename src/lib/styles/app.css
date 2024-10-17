@@ -17,7 +17,7 @@
 	--o-80: 0.8;
 	--o-90: 0.9;
 
-	--font-sans: 'Inter';
+	--font-sans: 'IBM Plex Sans', 'Inter';
 	--font-mono: 'Monaco';
 
 	--font-bold: 800;
@@ -31,14 +31,15 @@
 	--font-xl: 1.25rem;
 
 	/* Semantic Colors */
-	--background: var(--white);
-	--foreground: var(--green-5);
+	--background: #fff9eb;
+	--foreground: #1c2253;
+	--interact: #2c57f1;
 
 	/* HEX Colors */
 	--black: #000000;
 	--white: #ffffff;
-	--gray-1: #dedede;
-	--gray-2: #bcbcbc;
+	--gray-1: rgba(0, 0, 0, 0.1);
+	--gray-2: rgba(0, 0, 0, 0.2);
 
 	--green-1: #f9fffd;
 	--green-2: #a0e6cd;
@@ -77,7 +78,7 @@ input {
 	font-size: var(--font-md);
 	font-weight: var(--font-norm);
 	padding: var(--unit);
-	border: 1px solid var(--gray-2);
+	border: 1px solid var(--gray-1);
 	border-radius: var(--br-3);
 	background: var(--white);
 }
@@ -85,8 +86,8 @@ input {
 button,
 .button {
 	appearance: none;
-	background: var(--green-4);
-	color: var(--green-1);
+	background: var(--interact);
+	color: var(--white);
 	font-family: var(--font-sans);
 	font-size: var(--font-md);
 	font-weight: var(--font-semi);
@@ -94,21 +95,27 @@ button,
 	border-radius: var(--br-3);
 	padding: calc(0.5 * var(--unit)) calc(1.5 * var(--unit));
 	cursor: pointer;
+	box-shadow: 0 2px 0px #273d8e;
+	white-space: nowrap;
 	&:hover,
 	&:focus {
-		color: var(--green-1);
-		background: var(--green-3);
+		filter: brightness(1.25);
+		box-shadow: 0 2px 0px #273d8e;
+	}
+	&:active {
+		box-shadow: none;
+		transform: translateY(2px);
 	}
 }
 
 a {
-	color: var(--green-4);
+	color: var(--interact);
 	&.button {
 		text-decoration: none;
 	}
 	&:hover,
 	&:focus {
-		color: var(--green-3);
+		filter: brightness(1.25);
 	}
 }
 
@@ -116,15 +123,37 @@ a {
 	display: flex;
 	flex-direction: column;
 	gap: calc(2 * var(--unit));
+	min-width: min(100%, 32rem);
 
 	background: var(--background);
 	padding: calc(3 * var(--unit));
-	border: 1px solid var(--green-1);
+	border: 1px solid var(--gray-1);
 	border-radius: var(--br-3);
+
+	border-bottom-width: 3px;
+}
+
+@media (max-width: 32rem) {
+	.card {
+		border: none;
+		box-shadow: none;
+	}
 }
 
 .page {
 	margin: 2rem auto;
 	width: 100%;
 	max-width: 64rem;
+}
+
+.fullscreen {
+	flex: 1 1 auto;
+	min-height: 100%;
+	min-width: 100%;
+}
+.centered {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
 }
