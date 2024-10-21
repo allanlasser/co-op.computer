@@ -1,4 +1,6 @@
 import { getToolsForOwner } from '$lib/db/tools.js';
+import { getGroupsForUser } from '$lib/db/usersToGroups.js';
+import { userIsVerified } from '$lib/utils/auth';
 import { redirect } from '@sveltejs/kit';
 
 export async function load(event) {
@@ -9,6 +11,8 @@ export async function load(event) {
 	}
 	return {
 		session,
-		tools: getToolsForOwner(session.user.id)
+		isVerified: userIsVerified(session.user),
+		tools: getToolsForOwner(session.user.id),
+		groups: getGroupsForUser(session.user.id)
 	};
 }

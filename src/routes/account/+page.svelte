@@ -1,13 +1,24 @@
 <script lang="ts">
 	import { getGroupPath, getToolPath } from '$lib/utils/routes';
+	import ShieldAlert from 'lucide-svelte/icons/shield-alert';
 
 	export let data;
 
 	$: user = data.session.user;
+	$: isVerified = data.isVerified;
 </script>
 
 <div class="account page">
 	<div class="card">
+		{#if !isVerified}
+			<div class="card tip row align-center">
+				<ShieldAlert />
+				<p>Your email, {user.email}, is not verified.</p>
+				<form method="POST" action="/account/verification">
+					<button type="submit">Verify My Email</button>
+				</form>
+			</div>
+		{/if}
 		<header>
 			<h2>Welcome back, {user.username}</h2>
 			<a href="/account/signout">Sign Out</a>
@@ -76,6 +87,20 @@
 	.row {
 		display: flex;
 		gap: calc(4 * var(--unit));
+	}
+
+	.align-center {
+		align-items: center;
+	}
+
+	.tip {
+		flex-flow: row nowrap;
+		margin: var(--unit) 0;
+		padding: var(--unit);
+		font-weight: var(--font-semi);
+	}
+	.tip p {
+		flex: 1 1 auto;
 	}
 
 	.column {

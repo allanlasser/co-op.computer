@@ -32,6 +32,7 @@
 	.card {
 		width: 100%;
 		max-width: 32rem;
+		margin: 0 auto;
 	}
 	header {
 		display: flex;

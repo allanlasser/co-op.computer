@@ -48,9 +48,13 @@ export function clearAuthToken({ cookies }: { cookies: Cookies }): void {
 
 export function requireAuth(event: RequestEvent): { user: User } {
 	const session = event.locals.session;
-	const nextUrl = event.url.pathname;
+	const nextUrl = event.url.href;
 	if (!session) {
 		throw redirect(302, `/account/signin?then=${encodeURIComponent(nextUrl)}`);
 	}
 	return session;
+}
+
+export function userIsVerified(user: User): boolean {
+	return user.email === user.verifiedEmail;
 }
