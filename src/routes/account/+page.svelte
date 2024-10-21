@@ -4,6 +4,7 @@
 	export let data;
 
 	$: user = data.session.user;
+	$: isVerified = data.isVerified;
 </script>
 
 <div class="account page">
@@ -12,6 +13,14 @@
 			<h2>Welcome back, {user.username}</h2>
 			<a href="/account/signout">Sign Out</a>
 		</header>
+		{#if !isVerified}
+			<div class="row">
+				<p>Your email, {user.email}, is not verified.</p>
+				<form method="POST" action="/account/verification">
+					<button type="submit">Verify My Email</button>
+				</form>
+			</div>
+		{/if}
 		<div class="row">
 			<div class="column">
 				<h3>Your Tools</h3>

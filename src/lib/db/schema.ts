@@ -11,7 +11,7 @@ export const Users = pgTable('users', {
 	password: text('password').notNull(),
 	ordinal: serial('ordinal').notNull(), // your user number, for fun
 	createdAt: timestamp('createdAt').defaultNow(),
-	verifiedEmail: text('email')
+	verifiedEmail: text('verified_email')
 });
 
 export const UsersRelations = relations(Users, ({ many }) => ({
@@ -108,6 +108,7 @@ export const Verifications = pgTable('verifications', {
 		.notNull()
 		.default(sql`gen_random_uuid()`), // Generate a UUID by default
 	createdAt: timestamp('createdAt').notNull().defaultNow(),
+	code: text('code').notNull(),
 	userId: uuid('user_id')
 		.notNull()
 		.references(() => Users.id),

@@ -12,6 +12,11 @@ export async function createUser(email: string, username: string, password: stri
 	return db.insert(Users).values({ email, username, password: pwHash }).returning();
 }
 
+export async function updateUser(values: Partial<User>) {
+	if (!values.id) throw TypeError('Missing User ID');
+	return db.update(Users).set(values).where(eq(Users.id, values.id)).returning();
+}
+
 export async function getUser(id: string, email: string) {
 	return db
 		.selectDistinct()

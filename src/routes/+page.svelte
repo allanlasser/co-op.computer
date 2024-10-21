@@ -17,8 +17,10 @@
 	{:else}
 		<div class="card">
 			<h1>hello world</h1>
-			<a class="button" href="/account/signup">Sign Up</a>
-			<a class="button" href="/account/signin">Sign In</a>
+			<div class="auth-buttons">
+				<a class="button" href="/account/signup">Sign Up</a>
+				<a class="button" href="/account/signin">Sign In</a>
+			</div>
 		</div>
 	{/if}
 </div>
@@ -51,5 +53,9 @@
 		list-style-type: none;
 		font-size: var(--font-lg);
 		font-weight: var(--font-bold);
+	}
+	.auth-buttons {
+		display: inline-flex;
+		gap: calc(2 * var(--unit));
 	}
 </style>
