@@ -10,12 +10,14 @@ export const Users = pgTable('users', {
 	username: text('username').notNull().unique(),
 	password: text('password').notNull(),
 	ordinal: serial('ordinal').notNull(), // your user number, for fun
-	createdAt: timestamp('createdAt').defaultNow()
+	createdAt: timestamp('createdAt').defaultNow(),
+	verifiedEmail: text('email')
 });
 
 export const UsersRelations = relations(Users, ({ many }) => ({
 	tools: many(Tools),
 	groups: many(UsersToGroups),
+	verifications: many(Verifications),
 	sentInvitations: many(Invitations, { relationName: 'fromUser' }),
 	receivedInvitations: many(Invitations, { relationName: 'toUser' })
 }));
@@ -99,6 +101,27 @@ export const InvitationsRelations = relations(Invitations, ({ one }) => ({
 }));
 
 export type Invitation = typeof Invitations.$inferSelect;
+
+export const Verifications = pgTable('verifications', {
+	id: uuid('id')
+		.primaryKey()
+		.notNull()
+		.default(sql`gen_random_uuid()`), // Generate a UUID by default
+	createdAt: timestamp('createdAt').notNull().defaultNow(),
+	userId: uuid('user_id')
+		.notNull()
+		.references(() => Users.id),
+	userEmail: text('user_email').notNull()
+});
+
+export const VerificationsRelations = relations(Verifications, ({ one }) => ({
+	user: one(Users, {
+		fields: [Verifications.userId],
+		references: [Users.id]
+	})
+}));
+
+export type Verification = typeof Verifications.$inferSelect;
 
 export const Tools = pgTable('tools', {
 	id: uuid('id')

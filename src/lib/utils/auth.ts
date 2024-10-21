@@ -54,3 +54,7 @@ export function requireAuth(event: RequestEvent): { user: User } {
 	}
 	return session;
 }
+
+export function userIsVerified(user: User): boolean {
+	return user.email === user.verifiedEmail;
+}
