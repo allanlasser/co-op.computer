@@ -25,6 +25,7 @@
 				<input
 					type="text"
 					name="invitation"
+					required
 					value={data.invitation}
 					readonly={Boolean(data.invitation)}
 				/>
@@ -78,6 +79,9 @@
 		display: flex;
 		flex-wrap: wrap;
 		gap: calc(2 * var(--unit));
+	}
+	[name='invitation'] {
+		font-family: var(--font-mono);
 	}
 	.column {
 		flex: 1 1 16rem;
