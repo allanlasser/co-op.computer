@@ -52,14 +52,13 @@ export const actions = {
 		const invitation = await createInvitation({ fromUserId, toUserId, toEmail, toGroupId });
 		// Send an email with a link to accept the invitation.
 		try {
-			const result = await sendInvitationEmail({
+			await sendInvitationEmail({
 				origin: url.origin,
 				invitation,
 				fromUser: user,
 				toGroup,
 				toUser
 			});
-			console.log(result);
 		} catch (error) {
 			return fail(500, {
 				errors: [String(error)]

@@ -36,17 +36,16 @@ export const actions = {
 		}
 		// send email
 		try {
-			const result = await sendVerificationEmail({ verification, origin: event.url.origin });
-			console.log(result);
-			return {
-				success: true,
-				message: 'Sent! Check your email for the verification link'
-			};
+			await sendVerificationEmail({ verification, origin: event.url.origin });
 		} catch (error) {
 			console.error(error);
 			return fail(400, {
 				errors: [String(error)]
 			});
 		}
+		return {
+			success: true,
+			message: 'Sent! Check your email for the verification link'
+		};
 	}
 };

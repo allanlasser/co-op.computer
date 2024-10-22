@@ -14,6 +14,7 @@ export async function load(event) {
 		throw error(404, 'Group not found');
 	}
 	return {
+		user,
 		group,
 		members: getUsersForGroup(group.id),
 		invitations: getInvitationsToGroup(group.id)
