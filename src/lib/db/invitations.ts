@@ -1,6 +1,7 @@
 import { db } from '$lib/db';
 import { and, eq } from 'drizzle-orm';
-import { Invitations, type Invitation, Groups, Users } from './schema';
+import { Invitations, type Invitation, Groups, Users, type User } from './schema';
+import { addUserToGroup } from './usersToGroups';
 
 export async function getInvitation(uuid: string) {
 	const [result] = await db
@@ -23,6 +24,18 @@ export async function createInvitation(
 	return invitation;
 }
 
+export async function updateInvitation(
+	values: Partial<typeof Invitations.$inferInsert>
+): Promise<Invitation> {
+	if (!values.id) throw new TypeError('Missing Invitation ID');
+	const [invitation] = await db
+		.update(Invitations)
+		.set(values)
+		.where(eq(Invitations.id, values.id))
+		.returning();
+	return invitation;
+}
+
 export async function getInvitationsToGroup(
 	groupId: string,
 	accepted = false
@@ -31,6 +44,14 @@ export async function getInvitationsToGroup(
 		.select()
 		.from(Invitations)
 		.where(and(eq(Invitations.toGroupId, groupId), eq(Invitations.accepted, accepted)));
+}
+
+export async function acceptInvitation(invitationId: string, user: User): Promise<void> {
+	const result = await getInvitation(invitationId);
+	if (!result) throw new Error('Invitation not found');
+	// mark the invitation as accepted and add the new user to the invitation group
+	await updateInvitation({ id: result.invitations.id, accepted: true, toUserId: user.id });
+	await addUserToGroup(user.id, result.groups.id);
 }
 
 // export async function updateGroup(group: Partial<Group>): Promise<Group> {

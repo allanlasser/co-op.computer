@@ -9,7 +9,7 @@ export async function load(event) {
 	const invitation = await getInvitation(uuid);
 	const isToUser = user ? invitation.users.id !== user.id : true;
 	if (!invitation || !isToUser) {
-		throw error(404, 'Page Miss');
+		throw error(404, 'Not Found');
 	}
 
 	return {

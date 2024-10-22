@@ -1,6 +1,7 @@
 import { object, string } from 'zod';
 
 export const signUpSchema = object({
+	invitation: string({ required_error: 'Invitation is required' }).min(1, 'Invitation is required'),
 	email: string({ required_error: 'Email is required' })
 		.min(1, 'Email is required')
 		.email('Invalid email'),

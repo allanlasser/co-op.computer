@@ -1,3 +1,4 @@
+import { acceptInvitation } from '$lib/db/invitations';
 import { createUser } from '$lib/db/users';
 import { createJWT, getAuthPayload, setAuthToken } from '$lib/utils/auth';
 import { formDataToObject } from '$lib/utils/types';
@@ -27,6 +28,12 @@ export const actions = {
 		}
 		// create the user
 		const [user] = await createUser(data.email, data.username, data.password);
+		// accept the invitation
+		try {
+			await acceptInvitation(data.invitation, user);
+		} catch (error) {
+			return fail(400, { errors: [String(error)] });
+		}
 		// sign them in by creating and setting a JWT
 		const token = createJWT(user);
 		setAuthToken({ cookies, token });
