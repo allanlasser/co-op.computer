@@ -1,10 +1,7 @@
 import { fail } from '@sveltejs/kit';
-import VerificationEmail from '$lib/components/email/Verification.svelte';
 import { createVerification, getVerificationForUser, verify } from '$lib/db/verifications';
 import { requireAuth, userIsVerified } from '$lib/utils/auth';
-import { getVerificationPath } from '$lib/utils/routes';
-import { EMAIL_DOMAIN, getMailgunClient, renderTemplate, SYSTEM_SENDER } from '$lib/utils/email';
-import { MAILGUN_API_KEY } from '$env/static/private';
+import { sendVerificationEmail } from '$lib/utils/email';
 
 export async function load(event) {
 	const { user } = requireAuth(event);
@@ -37,19 +34,9 @@ export const actions = {
 		if (!verification) {
 			[verification] = await createVerification(user);
 		}
-		// create href for the verification page
-		const href = new URL(getVerificationPath(verification), event.url.origin).href;
 		// send email
 		try {
-			const { html, text } = renderTemplate(VerificationEmail, { href });
-			const client = getMailgunClient(MAILGUN_API_KEY);
-			const result = await client.messages.create(EMAIL_DOMAIN, {
-				from: SYSTEM_SENDER,
-				to: [verification.userEmail],
-				subject: 'Please verify your email',
-				html,
-				text
-			});
+			const result = await sendVerificationEmail({ verification, origin: event.url.origin });
 			console.log(result);
 			return {
 				success: true,

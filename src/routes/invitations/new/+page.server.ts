@@ -3,11 +3,9 @@ import { createInvitation } from '$lib/db/invitations';
 import { getUserByEmail } from '$lib/db/users';
 import { getGroup } from '$lib/db/groups';
 import { getGroupsForUser, isUserInGroup } from '$lib/db/usersToGroups';
-import InvitationEmail from '$lib/components/email/Invitation.svelte';
 import { requireAuth } from '$lib/utils/auth';
-import { EMAIL_DOMAIN, getMailgunClient, renderTemplate, SYSTEM_SENDER } from '$lib/utils/email';
+import { sendInvitationEmail } from '$lib/utils/email';
 import { formDataToObject, type Maybe } from '$lib/utils/types';
-import { MAILGUN_API_KEY } from '$env/static/private';
 
 export async function load(event) {
 	const session = requireAuth(event);
@@ -54,20 +52,12 @@ export const actions = {
 		const invitation = await createInvitation({ fromUserId, toUserId, toEmail, toGroupId });
 		// Send an email with a link to accept the invitation.
 		try {
-			const { html, text } = renderTemplate(InvitationEmail, {
+			const result = await sendInvitationEmail({
 				origin: url.origin,
 				invitation,
 				fromUser: user,
-				toUser,
-				toGroup
-			});
-			const client = getMailgunClient(MAILGUN_API_KEY);
-			const result = await client.messages.create(EMAIL_DOMAIN, {
-				from: SYSTEM_SENDER,
-				to: [invitation.toEmail],
-				subject: `You're invited to join ${user.username}'s group on CO-OP`,
-				html,
-				text
+				toGroup,
+				toUser
 			});
 			console.log(result);
 		} catch (error) {
