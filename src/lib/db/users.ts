@@ -7,11 +7,29 @@ import type { Maybe } from '$lib/utils/types';
 
 config({ path: '.env.development.local' });
 
+export async function createUser(email: string, username: string, password: string) {
+	const pwHash = await hash(password);
+	return db.insert(Users).values({ email, username, password: pwHash }).returning();
+}
+
+export async function updateUser(values: Partial<User>) {
+	if (!values.id) throw TypeError('Missing User ID');
+	return db.update(Users).set(values).where(eq(Users.id, values.id)).returning();
+}
+
 export async function getUser(id: string, email: string) {
 	return db
 		.selectDistinct()
 		.from(Users)
 		.where(and(eq(Users.id, id), eq(Users.email, email)));
+}
+
+export async function getUserByEmail(email: string): Promise<Maybe<User>> {
+	const [user] = await db
+		.selectDistinct()
+		.from(Users)
+		.where(and(eq(Users.email, email)));
+	return user;
 }
 
 export async function authenticateUser(email: string, password: string) {
@@ -31,9 +49,4 @@ export async function authenticateUser(email: string, password: string) {
 	}
 	ret.data = user;
 	return ret;
-}
-
-export async function createUser(email: string, username: string, password: string) {
-	const pwHash = await hash(password);
-	return db.insert(Users).values({ email, username, password: pwHash }).returning();
 }

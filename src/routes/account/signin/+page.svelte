@@ -8,7 +8,7 @@
 <div class="card">
 	<header>
 		<h1>Sign In</h1>
-		<p>Need an account? <a href="/account/create">Sign Up</a></p>
+		<p>Need an account? <a href="/account/new">Sign Up</a></p>
 	</header>
 	{#if form?.errors}
 		{JSON.stringify(form.errors, null, 2)}
@@ -32,6 +32,7 @@
 	.card {
 		width: 100%;
 		max-width: 32rem;
+		margin: 0 auto;
 	}
 	header {
 		display: flex;

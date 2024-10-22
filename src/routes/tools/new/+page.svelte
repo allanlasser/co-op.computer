@@ -10,26 +10,23 @@
 	}
 </script>
 
-<div class="page">
-	<h1>Add a Tool</h1>
-	<form method="POST" use:enhance>
-		<label>
-			Name
-			<input name="name" type="name" />
-		</label>
-		<button>Add tool</button>
-	</form>
-	{#if form?.success}
-		<p>Tool added!</p>
-	{/if}
+<div class="page fullScreen centered">
+	<div class="card">
+		<h1>Add a Tool</h1>
+		<form method="POST" use:enhance>
+			<label>
+				Name
+				<input name="name" type="name" />
+			</label>
+			<button>Add tool</button>
+		</form>
+		{#if form?.success}
+			<p>Tool added!</p>
+		{/if}
+	</div>
 </div>
 
 <style>
-	.page {
-		margin: calc(4 * var(--unit)) auto;
-		width: 100%;
-		max-width: 64rem;
-	}
 	form {
 		margin: calc(2 * var(--unit)) 0;
 		display: flex;

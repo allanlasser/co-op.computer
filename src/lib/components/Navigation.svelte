@@ -1,79 +1,32 @@
-<script lang="ts">
-	import type { User } from '$lib/db/schema';
-	import type { Maybe } from '$lib/utils/types';
-
-	export let user: Maybe<User> = undefined;
-</script>
-
-<nav>
-	<a class="home" href="/">
-		<h1>commonplace.tools</h1>
-		<p>distributed toolshare library</p>
+<nav class="page">
+	<a class="home center" href="/">
+		<h1><span class="co">co</span><span class="hyphen">-</span><span class="op">op</span></h1>
 	</a>
-
-	<ul>
-		<li><a href="/tools">Find Tool</a></li>
-		<li><a href="/tools/new">Contribute</a></li>
-	</ul>
-
-	<div class="account">
-		{#if user}
-			<div class="flex">
-				<p><a href="/account">{user.username}</a></p>
-				<a class="button" href="/account/signout" data-sveltekit-reload>Sign Out</a>
-			</div>
-		{:else}
-			<div class="flex">
-				<a class="button" href="/account/signin">Sign In</a>
-				<a class="button" href="/account/create">Sign Up</a>
-			</div>
-		{/if}
-	</div>
 </nav>
 
 <style>
-	.flex {
-		display: flex;
-		gap: 1rem;
-		align-items: baseline;
-	}
 	nav {
 		flex: 0 1 auto;
-		display: flex;
-		flex-wrap: wrap;
-		align-items: center;
-		justify-content: space-between;
+		display: grid;
+		justify-content: center;
+		align-items: stretch;
+		grid-template-columns: 1fr;
 		gap: calc(3 * var(--unit));
 		padding: var(--unit) calc(2 * var(--unit));
-		border-bottom: 1px solid var(--gray-1);
+		/* border-right: 2px solid var(--gray-1); */
 	}
 	nav a {
+		display: block;
 		text-decoration: none;
 	}
-	nav ul {
-		flex: 1 1 auto;
-		display: inline-flex;
-		gap: calc(3 * var(--unit));
-		align-items: baseline;
-		list-style-type: none;
+	.right {
+		text-align: right;
 	}
-	nav ul li a {
-		font-weight: var(--font-semi);
+	.left {
+		text-align: left;
 	}
-	.home {
-		color: inherit;
-		text-decoration: none;
-		&:hover,
-		&:focus {
-			color: var(--green-3);
-		}
-	}
-	.home h1 {
-		font-size: var(--font-lg);
-	}
-	.home p {
-		font-size: var(--font-xs);
-		opacity: var(--o-70);
+	.center {
+		text-align: center;
 	}
 	.account {
 		display: flex;
@@ -81,5 +34,69 @@
 		gap: var(--unit);
 		font-size: var(--font-md);
 		font-weight: var(--font-semi);
+		padding: 0.5rem;
+		border-radius: var(--br-3);
+		border: 2px solid transparent;
+		&:hover,
+		&:focus {
+			border: 2px solid var(--gray-2);
+			box-shadow: 0 2px 0 var(--gray-2);
+		}
+		&:active {
+			transform: translateY(2px);
+			box-shadow: none;
+		}
+	}
+	.signout {
+		display: flex;
+		fill: orangered;
+		text-align: center;
+	}
+	.home {
+		text-align: center;
+		text-decoration: none;
+		padding: 0.25rem 0.5rem;
+		border-radius: var(--br-3);
+		border: 2px solid transparent;
+		&:hover,
+		&:focus {
+			border: 2px solid var(--gray-2);
+			box-shadow: 0 2px 0 var(--gray-2);
+		}
+		&:active {
+			transform: translateY(2px);
+			box-shadow: none;
+		}
+	}
+	.home h1 {
+		font-size: calc(1.5 * var(--font-xl));
+		font-weight: var(--font-bold);
+		text-transform: uppercase;
+	}
+	.home p {
+		font-size: var(--font-xs);
+		font-weight: var(--font-semi);
+		opacity: var(--o-70);
+	}
+	.co,
+	.op,
+	.hyphen {
+		display: inline-block;
+		color: var(--interactive);
+		-webkit-text-stroke: 0.09375rem;
+		-webkit-text-fill-color: transparent;
+		letter-spacing: 0.0625rem;
+	}
+	.co {
+		color: teal;
+		-webkit-text-stroke-color: teal;
+	}
+	.op {
+		color: orangered;
+		-webkit-text-stroke-color: orangered;
+	}
+	.hyphen {
+		color: indigo;
+		-webkit-text-stroke-color: indigo;
 	}
 </style>

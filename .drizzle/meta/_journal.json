@@ -43,6 +43,41 @@
       "when": 1729028965197,
       "tag": "0005_amusing_golden_guardian",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1729205236016,
+      "tag": "0006_peaceful_firelord",
+      "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "7",
+      "when": 1729515883702,
+      "tag": "0007_serious_ozymandias",
+      "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "7",
+      "when": 1729516733774,
+      "tag": "0008_remarkable_joseph",
+      "breakpoints": true
+    },
+    {
+      "idx": 9,
+      "version": "7",
+      "when": 1729521716183,
+      "tag": "0009_robust_scarlet_witch",
+      "breakpoints": true
+    },
+    {
+      "idx": 10,
+      "version": "7",
+      "when": 1729521883634,
+      "tag": "0010_giant_beast",
+      "breakpoints": true
     }
   ]
 }
