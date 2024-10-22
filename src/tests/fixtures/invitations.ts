@@ -1,7 +1,7 @@
 import type { Invitation } from '$lib/db/schema';
 
 export const invitation: Invitation = {
-	id: '1a2b3c4d-5e6f-7g8h-9i0j-1k2l3m4n5o6p',
+	id: '1a2b3c4d-5e6f-7a8b-9c0d-1e2f3a4b5c6d',
 	createdAt: new Date('2023-10-01T12:00:00Z'),
 	fromUserId: 'user-1',
 	toGroupId: 'group-1',
@@ -12,7 +12,7 @@ export const invitation: Invitation = {
 
 export const invitations: Invitation[] = [
 	{
-		id: '1a2b3c4d-5e6f-7g8h-9i0j-1k2l3m4n5o6p',
+		id: '1a2b3c4d-5e6f-7a8b-9c0d-1e2f3a4b5c6d',
 		createdAt: new Date('2023-10-01T12:00:00Z'),
 		fromUserId: 'user-1',
 		toGroupId: 'group-1',
@@ -21,7 +21,7 @@ export const invitations: Invitation[] = [
 		accepted: false
 	},
 	{
-		id: '2b3c4d5e-6f7g-8h9i-0j1k-2l3m4n5o6p7q',
+		id: '1a2b3c4d-5e6f-7a8b-9c0d-1e2f3a4b5c6d',
 		createdAt: new Date('2023-10-02T12:00:00Z'),
 		fromUserId: 'user-3',
 		toGroupId: 'group-2',
