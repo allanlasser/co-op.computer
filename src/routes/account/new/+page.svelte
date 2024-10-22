@@ -91,6 +91,7 @@
 	.help {
 		font-family: var(--font-mono);
 		font-size: var(--font-xs);
+		font-weight: var(--font-norm);
 		line-height: 1.5;
 		opacity: var(--o-70);
 		&p,
