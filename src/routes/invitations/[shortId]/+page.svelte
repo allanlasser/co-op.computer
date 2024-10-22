@@ -2,19 +2,26 @@
 <!-- If signed out: sign in + redirect back here
   or create an account and pass through the invitation code -->
 <script lang="ts">
+	import { enhance } from '$app/forms';
+	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
+	import { getGroupPath } from '$lib/utils/routes';
 
 	export let data;
+	export let form;
 
 	$: user = data.session?.user;
 	$: invitation = data.invitations;
 	$: toGroup = data.groups;
 	$: fromUser = data.users;
+
+	$: if (form?.success) {
+		goto(getGroupPath(toGroup));
+	}
 </script>
 
 <div class="page">
 	<div class="info card">
-		<h1 class="hello semi">Is this thing on?</h1>
 		<div class="body">
 			<p>
 				Your friend <span class="fromUser semi">{fromUser.username}</span> has invited you to join
@@ -24,7 +31,7 @@
 		</div>
 		{#if user}
 			<div class="actions">
-				<form method="POST">
+				<form method="POST" action="?/accept" use:enhance>
 					<button type="submit">Accept Invitation</button>
 				</form>
 			</div>
@@ -37,7 +44,7 @@
 					To accept this invitation,<br />you'll need a <span class="co-op">CO-OP</span> account:
 				</p>
 				<div class="actions">
-					<a class="button" href="/account/create?code={invitation.id}">Sign Up</a>
+					<a class="button" href="/account/new?invitation={invitation.id}">Sign Up</a>
 					<a class="button" href="/account/signin?then={encodeURIComponent($page.url.pathname)}">
 						Sign In
 					</a>

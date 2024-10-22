@@ -1,9 +1,10 @@
 <script lang="ts">
-	import { shortenUUID } from '$lib/utils/routes';
+	import { enhance } from '$app/forms';
+	import { getInvitationPath } from '$lib/utils/routes';
 
 	export let data;
 
-	$: user = data.session?.user;
+	$: user = data.user;
 	$: group = data.group;
 </script>
 
@@ -12,34 +13,36 @@
 		<header>
 			<h2>{group.name}</h2>
 		</header>
-		<div class="row">
-			<div class="column">
-				<header>
-					<h3>Members</h3>
-					<a class="action" href="/invitations/new?toGroup={group.id}">Invite Member</a>
-				</header>
-				{#await data.members then members}
-					{#each members as member (member.id)}
-						<li class="row">
-							<h4>{member.username}</h4>
-							{#if member.id === user?.id}<span class="badge">You</span>{/if}
-						</li>
-					{/each}
-				{/await}
-			</div>
-			<div class="column">
-				<header>
-					<h3>Invitations</h3>
-					<a class="action" href="/invitations/preview?toGroup={group.id}">Preview</a>
-				</header>
-				{#await data.invitations then invitations}
-					{#each invitations as invitation (invitation.id)}
-						<li class="invitation row">
-							<h4>{invitation.toEmail}</h4>
-						</li>
-					{/each}
-				{/await}
-			</div>
+		<div class="column">
+			<header>
+				<h3>Members</h3>
+				<a class="action" href="/invitations/new?toGroup={group.id}">Invite Member</a>
+			</header>
+			{#await data.members then members}
+				{#each members as member (member.id)}
+					<li class="row">
+						<h4>{member.username}</h4>
+						{#if member.id === user?.id}<span class="badge">You</span>{/if}
+					</li>
+				{/each}
+			{/await}
+		</div>
+		<div class="column">
+			<header>
+				<h3>Invitations</h3>
+			</header>
+			{#await data.invitations then invitations}
+				{#each invitations as invitation (invitation.id)}
+					<li class="invitation row">
+						<h4>{invitation.toEmail}</h4>
+						{#if user.id === invitation.fromUserId}
+							<form method="POST" action="{getInvitationPath(invitation)}?/resend" use:enhance>
+								<button type="submit">Resend</button>
+							</form>
+						{/if}
+					</li>
+				{/each}
+			{/await}
 		</div>
 	</div>
 </div>
@@ -50,6 +53,9 @@
 		margin-bottom: var(--unit);
 		border-bottom: 2px solid var(--gray-1);
 	}
+	.card {
+		gap: calc(4 * var(--unit));
+	}
 	h2 {
 		flex: 1 1 100%;
 		text-align: center;
@@ -57,6 +63,7 @@
 	h3,
 	h4 {
 		font-weight: var(--font-semi);
+		flex: 1 1 auto;
 	}
 	.row {
 		display: flex;
@@ -64,7 +71,7 @@
 		gap: calc(4 * var(--unit));
 	}
 	.column {
-		flex: 1 1 12rem;
+		flex: 1 1 auto;
 		display: flex;
 		flex-direction: column;
 	}

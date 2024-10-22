@@ -1,12 +1,13 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
+	import { goto } from '$app/navigation';
+	import { getGroupPath } from '$lib/utils/routes';
 
 	export let data;
 	export let form;
 
 	$: if (form?.success) {
-		// show a success message
-		// clear the form
+		goto(getGroupPath({ id: form.data.invitation.toGroupId }));
 	}
 
 	let toGroupId = data.toGroupId;

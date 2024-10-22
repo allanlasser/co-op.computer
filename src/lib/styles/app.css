@@ -17,8 +17,8 @@
 	--o-80: 0.8;
 	--o-90: 0.9;
 
-	--font-sans: 'IBM Plex Sans', 'Inter';
-	--font-mono: 'Monaco';
+	--font-sans: 'IBM Plex Sans', 'Inter', sans-serif;
+	--font-mono: 'IBM Plex Mono', 'Monaco', monospace;
 
 	--font-bold: 800;
 	--font-semi: 600;
