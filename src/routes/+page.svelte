@@ -18,7 +18,7 @@
 		<div class="card">
 			<h1>hello world</h1>
 			<div class="auth-buttons">
-				<a class="button" href="/account/signup">Sign Up</a>
+				<a class="button" href="/account/new">Sign Up</a>
 				<a class="button" href="/account/signin">Sign In</a>
 			</div>
 		</div>

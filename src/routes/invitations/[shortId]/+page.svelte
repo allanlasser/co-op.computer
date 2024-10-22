@@ -37,7 +37,7 @@
 					To accept this invitation,<br />you'll need a <span class="co-op">CO-OP</span> account:
 				</p>
 				<div class="actions">
-					<a class="button" href="/account/create?code={invitation.id}">Sign Up</a>
+					<a class="button" href="/account/new?invitation={invitation.id}">Sign Up</a>
 					<a class="button" href="/account/signin?then={encodeURIComponent($page.url.pathname)}">
 						Sign In
 					</a>

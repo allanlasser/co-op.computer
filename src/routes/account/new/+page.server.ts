@@ -9,6 +9,9 @@ export async function load({ cookies, url }) {
 		const nextUrl = url.searchParams.get('then') ?? '/';
 		return redirect(301, nextUrl);
 	}
+	return {
+		invitation: url.searchParams.get('invitation')
+	};
 }
 
 export const actions = {

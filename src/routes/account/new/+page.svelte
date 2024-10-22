@@ -1,4 +1,5 @@
 <script lang="ts">
+	export let data;
 	export let form;
 
 	let email = '';
@@ -18,6 +19,18 @@
 		{/if}
 	</div>
 	<form method="POST" aria-label="Create account">
+		<div class="row">
+			<label>
+				Invitation
+				<input
+					type="text"
+					name="invitation"
+					value={data.invitation}
+					readonly={Boolean(data.invitation)}
+				/>
+				<p class="help">An invitation is required to join CO-OP</p>
+			</label>
+		</div>
 		<div class="column">
 			<label>
 				Email
@@ -26,7 +39,7 @@
 			<label>
 				Username
 				<input type="text" name="username" bind:value={username} />
-				<div class="username-help">
+				<div class="help">
 					<p>Your username will be used in your profile URL:</p>
 					<p>commonplace.tools/users/{username}</p>
 				</div>
@@ -42,9 +55,9 @@
 				<input type="text" name="confirmPassword" bind:value={confirmPassword} />
 			</label>
 		</div>
-		<footer>
+		<div class="row">
 			<button type="submit">Sign Up</button>
-		</footer>
+		</div>
 	</form>
 </div>
 
@@ -72,14 +85,15 @@
 		flex-direction: column;
 		gap: calc(2 * var(--unit));
 	}
-	footer {
+	.row {
 		flex: 1 1 100%;
 	}
-	.username-help {
+	.help {
 		font-family: var(--font-mono);
 		font-size: var(--font-xs);
 		line-height: 1.5;
 		opacity: var(--o-70);
+		&p,
 		& p {
 			margin: 0;
 		}

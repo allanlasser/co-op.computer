@@ -12,7 +12,7 @@
 	export let toUser: Maybe<User> = undefined;
 
 	let inviteHref = new URL(getInvitationPath(invitation), origin).href;
-	let createHref = new URL('/account/create', origin).href;
+	let newAccountHref = new URL(`/account/new?invitation=${invitation.id}`, origin).href;
 </script>
 
 <Html lang="en">
@@ -22,6 +22,6 @@
 	>
 	<Button href={inviteHref}>View Invitation</Button>
 	<Hr />
-	<Text>Or use this code when <Link href={createHref}>creating your account</Link>:</Text>
+	<Text>Or use this code when <Link href={newAccountHref}>creating your account</Link>:</Text>
 	<Container><Text>{invitation.id}</Text></Container>
 </Html>
