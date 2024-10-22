@@ -1,17 +1,10 @@
 import { fail } from '@sveltejs/kit';
-import FormData from 'form-data';
-import Mailgun from 'mailgun.js';
-import { MAILGUN_API_KEY } from '$env/static/private';
-import { render } from 'svelty-email';
-import VerificationEmail from '$lib/email/Verification.svelte';
+import VerificationEmail from '$lib/components/email/Verification.svelte';
 import { createVerification, getVerificationForUser, verify } from '$lib/db/verifications';
 import { requireAuth, userIsVerified } from '$lib/utils/auth';
 import { getVerificationPath } from '$lib/utils/routes';
-
-function getMailgunClient() {
-	const mailgun = new Mailgun(FormData);
-	return mailgun.client({ username: 'api', key: MAILGUN_API_KEY });
-}
+import { EMAIL_DOMAIN, getMailgunClient, renderTemplate, SYSTEM_SENDER } from '$lib/utils/email';
+import { MAILGUN_API_KEY } from '$env/static/private';
 
 export async function load(event) {
 	const { user } = requireAuth(event);
@@ -48,20 +41,16 @@ export const actions = {
 		const href = new URL(getVerificationPath(verification), event.url.origin).href;
 		// send email
 		try {
-			const html = render({ template: VerificationEmail, props: { href } });
-			const text = render({
-				template: VerificationEmail,
-				props: { href },
-				options: { plainText: true }
-			});
-			const mailgunClient = getMailgunClient();
-			await mailgunClient.messages.create('email.co-op.computer', {
+			const { html, text } = renderTemplate(VerificationEmail, { href });
+			const client = getMailgunClient(MAILGUN_API_KEY);
+			const result = await client.messages.create(EMAIL_DOMAIN, {
+				from: SYSTEM_SENDER,
 				to: [verification.userEmail],
-				from: 'CO-OP <system@email.co-op.computer>',
 				subject: 'Please verify your email',
-				text,
-				html
+				html,
+				text
 			});
+			console.log(result);
 			return {
 				success: true,
 				message: 'Sent! Check your email for the verification link'
