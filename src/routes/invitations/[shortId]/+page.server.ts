@@ -2,7 +2,8 @@ import { fail } from '@sveltejs/kit';
 import { acceptInvitation, getInvitation } from '$lib/db/invitations';
 import { enlargeUUID } from '$lib/utils/routes';
 import { getUser } from '$lib/db/users';
-import { sendInvitationEmail } from '$lib/utils/email';
+import { getMailgunClient, sendInvitationEmail } from '$lib/utils/email';
+import { MAILGUN_API_KEY } from '$env/static/private';
 
 export const actions = {
 	accept: async (event) => {
@@ -29,7 +30,8 @@ export const actions = {
 			? await getUser(invitation.toUserId, invitation.toEmail)
 			: [undefined];
 		try {
-			await sendInvitationEmail({
+			const client = getMailgunClient(MAILGUN_API_KEY);
+			await sendInvitationEmail(client, {
 				origin: event.url.origin,
 				invitation,
 				fromUser,

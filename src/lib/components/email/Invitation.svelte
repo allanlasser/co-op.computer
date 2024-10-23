@@ -1,10 +1,12 @@
 <script lang="ts">
 	import type { Group, Invitation } from '$lib/db/schema';
 	import type { User } from '$lib/db/schema';
+	import { styleToString } from '$lib/utils/styles';
 	import { getInvitationPath } from '$lib/utils/routes';
 	import type { Maybe } from '$lib/utils/types';
-	import type { StandardLonghandProperties } from 'csstype';
-	import { Button, Link, Hr, Html, Body, Text } from 'svelty-email';
+	import type { StandardProperties } from 'csstype';
+	import { Hr, Container, Link, Text } from 'svelty-email';
+	import Email from './Email.svelte';
 
 	export let origin: string;
 	export let invitation: Invitation;
@@ -15,70 +17,77 @@
 	let inviteHref = new URL(getInvitationPath(invitation), origin).href;
 	let newAccountHref = new URL(`/account/new?invitation=${invitation.id}`, origin).href;
 
-	const styles: Record<string, StandardLonghandProperties> = {
-		body: {
-			fontFamily: '"IBM Plex Sans", sans-serif',
-			width: '100%',
-			maxWidth: '600px',
-			marginLeft: 'auto',
-			marginRight: 'auto',
-			backgroundColor: '#ffffff',
-			boxSizing: 'border-box'
+	const styles: Record<string, StandardProperties> = {
+		message: {
+			fontSize: '1.125rem',
+			fontWeight: '500',
+			lineHeight: '2'
 		},
 		button: {
-			marginLeft: 'auto',
-			marginRight: 'auto',
+			display: 'inline-block',
+			boxSizing: 'border-box',
 			color: '#ffffff',
 			backgroundColor: 'teal',
+			border: '2px solid rgba(0,0,0,.2)',
+			borderBottomWidth: '4px',
 			fontSize: '16px',
 			fontWeight: '600',
-			paddingTop: '0.5rem',
-			paddingBottom: '0.5rem',
-			paddingLeft: '1rem',
-			paddingRight: '1rem',
-			borderBottomLeftRadius: '0.5rem',
-			borderBottomRightRadius: '0.5rem',
-			borderTopLeftRadius: '0.5rem',
-			borderTopRightRadius: '0.5rem'
+			minWidth: '12rem',
+			margin: '.5rem 0',
+			padding: '0.5rem 1rem',
+			borderRadius: '0.5rem',
+			textDecoration: 'none'
 		},
 		center: {
 			textAlign: 'center'
 		},
+		link: {
+			color: 'teal',
+			textDecoration: 'underline'
+		},
 		codeContainer: {
+			boxSizing: 'border-box',
 			display: 'block',
 			width: '100%',
-			backgroundColor: '#ececec',
+			backgroundColor: 'rgba(0,0,0,.05)',
 			fontFamily: '"IBM Plex Mono", monospace',
+			fontWeight: 500,
 			textAlign: 'center',
-			paddingTop: '0.25rem',
-			paddingBottom: '0.25rem',
-			paddingLeft: '0.5rem',
-			paddingRight: '0.5rem',
-			boxSizing: 'border-box',
-			borderBottomLeftRadius: '2rem',
-			borderBottomRightRadius: '2rem',
-			borderTopLeftRadius: '2rem',
-			borderTopRightRadius: '2rem'
+			padding: '0.5rem',
+			borderRadius: '2rem',
+			boxShadow: 'inset 0 2px 2px 0 rgba(0,0,0,.2)'
+		},
+		entity: {
+			fontWeight: '700',
+			boxShadow: '0 2px 0 currentColor',
+			whiteSpace: 'nowrap'
+		},
+		user: {
+			color: 'indigo'
+		},
+		group: {
+			color: 'orangered'
 		}
 	};
 </script>
 
-<Html lang="en">
-	<style>
-		@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&family=IBM+Plex+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&display=swap');
-	</style>
-	<Body style={styles.body}>
-		<Text
-			>Your friend {fromUser.username} has invited you to join their group {toGroup.name}{#if !toUser}&nbsp;on
-				CO-OP, the decentralized library system{/if}.</Text
-		>
-		<Text style={styles.center}
-			><Button style={styles.button} href={inviteHref}>View Invitation</Button></Text
-		>
-		<Hr />
-		<Text style={styles.center}
-			>Or use this code when <Link href={newAccountHref}>creating your account</Link>:</Text
-		>
-		<Text style={styles.codeContainer}>{invitation.id}</Text>
-	</Body>
-</Html>
+<Email>
+	<Container style={styles.center}>
+		<Text style={styles.message}>
+			Your friend <span style={styleToString([styles.entity, styles.user])}
+				>{fromUser.username}</span
+			>
+			invites you to join
+			<span style={styleToString([styles.entity, styles.group])}>{toGroup.name}</span>
+			{#if !toUser}on <span style={styleToString(styles.entity)}>CO-OP</span> to borrow and lend tools
+				within the group{/if}.
+		</Text>
+		<a style={styleToString(styles.button)} href={inviteHref}>View Invitation</a>
+	</Container>
+	<Text style={styles.center}>
+		Or use this code when <Link href={newAccountHref} style={styles.link}
+			>creating your account</Link
+		>:
+	</Text>
+	<Text style={styles.codeContainer}>{invitation.id}</Text>
+</Email>

@@ -1,8 +1,8 @@
 import FormData from 'form-data';
 import Mailgun, { type MessagesSendResult } from 'mailgun.js';
+import type { IMailgunClient } from 'mailgun.js/Interfaces';
 import type { ComponentProps, ComponentType } from 'svelte';
 import { render } from 'svelty-email';
-import { MAILGUN_API_KEY } from '$env/static/private';
 import VerificationEmail from '$lib/components/email/Verification.svelte';
 import InvitationEmail from '$lib/components/email/Invitation.svelte';
 
@@ -26,17 +26,17 @@ export function renderTemplate<T extends ComponentType>(
 	};
 }
 
-export function getMailgunClient(key = MAILGUN_API_KEY) {
+export function getMailgunClient(key: string) {
 	if (!key) throw TypeError('Missing Mailgun API key');
 	const mailgun = new Mailgun(FormData);
 	return mailgun.client({ username: 'api', key });
 }
 
 export async function sendVerificationEmail(
+	client: IMailgunClient,
 	props: ComponentProps<VerificationEmail>
 ): Promise<MessagesSendResult> {
 	const { html, text } = renderTemplate(VerificationEmail, props);
-	const client = getMailgunClient(MAILGUN_API_KEY);
 	return client.messages.create(EMAIL_DOMAIN, {
 		from: SYSTEM_SENDER,
 		to: [props.verification.userEmail],
@@ -47,10 +47,10 @@ export async function sendVerificationEmail(
 }
 
 export async function sendInvitationEmail(
+	client: IMailgunClient,
 	props: ComponentProps<InvitationEmail>
 ): Promise<MessagesSendResult> {
 	const { html, text } = renderTemplate(InvitationEmail, props);
-	const client = getMailgunClient(MAILGUN_API_KEY);
 	return client.messages.create(EMAIL_DOMAIN, {
 		from: SYSTEM_SENDER,
 		to: [props.invitation.toEmail],
