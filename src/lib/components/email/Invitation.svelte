@@ -5,7 +5,7 @@
 	import { getInvitationPath } from '$lib/utils/routes';
 	import type { Maybe } from '$lib/utils/types';
 	import type { StandardProperties } from 'csstype';
-	import { Button, Container, Link, Text } from 'svelty-email';
+	import { Hr, Container, Link, Text } from 'svelty-email';
 	import Email from './Email.svelte';
 
 	export let origin: string;
@@ -24,16 +24,19 @@
 			lineHeight: '2'
 		},
 		button: {
+			display: 'inline-block',
 			boxSizing: 'border-box',
 			color: '#ffffff',
 			backgroundColor: 'teal',
-			border: '1px solid rgba(0,0,0,.2)',
-			borderBottomWidth: '3px',
+			border: '2px solid rgba(0,0,0,.2)',
+			borderBottomWidth: '4px',
 			fontSize: '16px',
 			fontWeight: '600',
 			minWidth: '12rem',
-			padding: '0.5rem',
-			borderRadius: '0.5rem'
+			margin: '.5rem 0',
+			padding: '0.5rem 1rem',
+			borderRadius: '0.5rem',
+			textDecoration: 'none'
 		},
 		center: {
 			textAlign: 'center'
@@ -79,7 +82,7 @@
 			{#if !toUser}on <span style={styleToString(styles.entity)}>CO-OP</span> to borrow and lend tools
 				within the group{/if}.
 		</Text>
-		<Button style={styles.button} href={inviteHref}>View Invitation</Button>
+		<a style={styleToString(styles.button)} href={inviteHref}>View Invitation</a>
 	</Container>
 	<Text style={styles.center}>
 		Or use this code when <Link href={newAccountHref} style={styles.link}
