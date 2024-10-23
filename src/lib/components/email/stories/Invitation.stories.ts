@@ -9,7 +9,9 @@ import { group } from '../../../../tests/fixtures/groups';
 const meta = {
 	title: 'Email / Invitation',
 	component: Invitation,
-	tags: ['autodocs']
+	parameters: {
+		layout: 'fullscreen'
+	}
 } satisfies Meta<Invitation>;
 
 export default meta;

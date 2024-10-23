@@ -1,7 +1,8 @@
 import { fail } from '@sveltejs/kit';
+import { MAILGUN_API_KEY } from '$env/static/private';
 import { createVerification, getVerificationForUser, verify } from '$lib/db/verifications';
 import { requireAuth, userIsVerified } from '$lib/utils/auth';
-import { sendVerificationEmail } from '$lib/utils/email';
+import { getMailgunClient, sendVerificationEmail } from '$lib/utils/email';
 
 export async function load(event) {
 	const { user } = requireAuth(event);
@@ -36,7 +37,8 @@ export const actions = {
 		}
 		// send email
 		try {
-			await sendVerificationEmail({ verification, origin: event.url.origin });
+			const client = getMailgunClient(MAILGUN_API_KEY);
+			await sendVerificationEmail(client, { verification, origin: event.url.origin });
 		} catch (error) {
 			console.error(error);
 			return fail(400, {

@@ -4,8 +4,9 @@ import { getUserByEmail } from '$lib/db/users';
 import { getGroup } from '$lib/db/groups';
 import { getGroupsForUser, isUserInGroup } from '$lib/db/usersToGroups';
 import { requireAuth } from '$lib/utils/auth';
-import { sendInvitationEmail } from '$lib/utils/email';
+import { getMailgunClient, sendInvitationEmail } from '$lib/utils/email';
 import { formDataToObject, type Maybe } from '$lib/utils/types';
+import { MAILGUN_API_KEY } from '$env/static/private';
 
 export async function load(event) {
 	const session = requireAuth(event);
@@ -52,7 +53,8 @@ export const actions = {
 		const invitation = await createInvitation({ fromUserId, toUserId, toEmail, toGroupId });
 		// Send an email with a link to accept the invitation.
 		try {
-			await sendInvitationEmail({
+			const client = getMailgunClient(MAILGUN_API_KEY);
+			await sendInvitationEmail(client, {
 				origin: url.origin,
 				invitation,
 				fromUser: user,
