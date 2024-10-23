@@ -1,9 +1,9 @@
 import type { Meta, StoryObj } from '@storybook/svelte';
 
 import InvitationEmail from '../Invitation.svelte';
-import { user } from '../../../../tests/fixtures/users';
-import { invitation } from '../../../../tests/fixtures/invitations';
-import { group } from '../../../../tests/fixtures/groups';
+import { user } from '@/tests/fixtures/users';
+import { invitation } from '@/tests/fixtures/invitations';
+import { group } from '@/tests/fixtures/groups';
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories
 const meta = {

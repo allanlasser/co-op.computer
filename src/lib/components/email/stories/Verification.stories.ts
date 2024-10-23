@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/svelte';
 
 import VerificationEmail from '../Verification.svelte';
-import { verification } from '../../../../tests/fixtures/verifications';
+import { verification } from '@/tests/fixtures/verifications';
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories
 const meta = {
