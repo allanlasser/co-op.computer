@@ -45,10 +45,10 @@ export const UsersToGroups = pgTable(
 	{
 		userId: uuid('user_id')
 			.notNull()
-			.references(() => Users.id),
+			.references(() => Users.id, { onDelete: 'cascade' }),
 		groupId: uuid('group_id')
 			.notNull()
-			.references(() => Groups.id)
+			.references(() => Groups.id, { onDelete: 'cascade' })
 	},
 	(t) => ({
 		pk: primaryKey({ columns: [t.userId, t.groupId] })
