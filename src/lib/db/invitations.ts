@@ -36,6 +36,10 @@ export async function updateInvitation(
 	return invitation;
 }
 
+export async function deleteInvitation(id: string): Promise<void> {
+	await db.delete(Invitations).where(eq(Invitations.id, id));
+}
+
 export async function getInvitationsToGroup(
 	groupId: string,
 	accepted = false
@@ -62,8 +66,4 @@ export async function acceptInvitation(invitationId: string, user: User): Promis
 // 		.where(eq(Groups.id, group.id))
 // 		.returning();
 // 	return updatedGroup;
-// }
-
-// export async function deleteGroup(id: string): Promise<void> {
-// 	await db.delete(Groups).where(eq(Groups.id, id));
 // }
