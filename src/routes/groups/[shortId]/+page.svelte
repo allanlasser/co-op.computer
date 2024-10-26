@@ -21,7 +21,7 @@
 			{#await data.members then members}
 				{#each members as member (member.id)}
 					<li class="row">
-						<h4>{member.username}</h4>
+						<h4 class="username">{member.username}</h4>
 						{#if member.id === user?.id}<span class="badge">You</span>{/if}
 					</li>
 				{/each}
@@ -39,6 +39,9 @@
 							<form method="POST" action="{getInvitationPath(invitation)}?/resend" use:enhance>
 								<button type="submit">Resend</button>
 							</form>
+							<form method="POST" action="{getInvitationPath(invitation)}?/revoke" use:enhance>
+								<button class="danger" type="submit">Revoke</button>
+							</form>
 						{/if}
 					</li>
 				{/each}
@@ -50,7 +53,7 @@
 <style>
 	header {
 		padding-bottom: calc(2 * var(--unit));
-		margin-bottom: var(--unit);
+		margin-bottom: calc(2 * var(--unit));
 		border-bottom: 2px solid var(--gray-1);
 	}
 	.card {
@@ -65,10 +68,16 @@
 		font-weight: var(--font-semi);
 		flex: 1 1 auto;
 	}
+	li {
+		margin-bottom: 0.5rem;
+	}
+	.username {
+		flex: 0 1 auto;
+	}
 	.row {
 		display: flex;
 		align-items: baseline;
-		gap: calc(4 * var(--unit));
+		gap: calc(var(--unit));
 	}
 	.column {
 		flex: 1 1 auto;

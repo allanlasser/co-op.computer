@@ -1,5 +1,5 @@
 import { fail } from '@sveltejs/kit';
-import { acceptInvitation, getInvitation } from '$lib/db/invitations';
+import { acceptInvitation, deleteInvitation, getInvitation } from '$lib/db/invitations';
 import { enlargeUUID } from '$lib/utils/routes';
 import { getUser } from '$lib/db/users';
 import { getMailgunClient, sendInvitationEmail } from '$lib/utils/email';
@@ -15,6 +15,18 @@ export const actions = {
 			return fail(400, { errors: [String(error)] });
 		}
 		return { success: true };
+	},
+	revoke: async (event) => {
+		// Delete the invitation
+		const { user } = event.locals.session ?? {};
+		const { invitations: invitation, users: fromUser } = await getInvitation(
+			enlargeUUID(event.params.shortId)
+		);
+		if (user?.id !== fromUser.id) {
+			return fail(403, { errors: ['Unauthorized'] });
+		}
+		await deleteInvitation(invitation.id);
+		return { success: true, message: `Revoked invitation to ${invitation.toEmail}` };
 	},
 	resend: async (event) => {
 		const { user } = event.locals.session ?? {};
