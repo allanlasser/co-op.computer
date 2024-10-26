@@ -1,6 +1,5 @@
 import { getGroup } from '$lib/db/groups';
-import { getInvitationsToGroup } from '$lib/db/invitations';
-import { getUsersForGroup, isUserInGroup } from '$lib/db/usersToGroups';
+import { isUserInGroup } from '$lib/db/usersToGroups';
 import { requireAuth } from '$lib/utils/auth';
 import { getUUIDfromParams } from '$lib/utils/routes';
 import { error } from '@sveltejs/kit';
@@ -14,8 +13,6 @@ export async function load(event) {
 	}
 	return {
 		user,
-		group,
-		members: getUsersForGroup(group.id),
-		invitations: getInvitationsToGroup(group.id)
+		group
 	};
 }
