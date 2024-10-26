@@ -1,4 +1,4 @@
-import { eq, inArray } from 'drizzle-orm';
+import { and, not, eq, inArray } from 'drizzle-orm';
 import { db } from '$lib/db';
 import { Tools, Users, UsersToGroups } from '$lib/db/schema';
 import { getGroupsForUser } from './usersToGroups';
@@ -35,7 +35,7 @@ export async function getToolsForUser(userId: string) {
 		.from(Tools)
 		.innerJoin(Users, eq(Tools.ownerId, Users.id))
 		.innerJoin(UsersToGroups, eq(Tools.ownerId, UsersToGroups.userId))
-		.where(inArray(UsersToGroups.groupId, groupIds));
+		.where(and(not(eq(Tools.ownerId, userId)), inArray(UsersToGroups.groupId, groupIds)));
 }
 
 export async function createTool(newTool: typeof Tools.$inferInsert) {

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { getToolPath } from '$lib/utils/routes';
+	import ToolListItem from '@/lib/components/tools/ToolListItem.svelte';
 
 	export let data;
 </script>
@@ -15,10 +15,11 @@
 			<ul>
 				{#each results as result}
 					<li>
-						<div class="tool">
-							<h4><a href={getToolPath(result.tools)}>{result.tools.name}</a></h4>
-							<p class="owner">{result.users.username}</p>
-						</div>
+						<ToolListItem
+							tool={result.tools}
+							owner={result.users}
+							isOwner={result.users.id === data.session.user.id}
+						/>
 					</li>
 				{:else}
 					<li>No tools found</li>
@@ -40,13 +41,5 @@
 		flex-direction: column;
 		gap: calc(2 * var(--unit));
 		padding: 0;
-	}
-
-	h4 {
-		font-size: var(--font-lg);
-	}
-
-	.owner {
-		font-size: var(--font-sm);
 	}
 </style>
