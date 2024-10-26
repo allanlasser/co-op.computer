@@ -1,6 +1,7 @@
 <script>
 	import '$lib/styles/app.css';
-	import Navigation from '$lib/components/Navigation.svelte';
+	import About from '@/lib/components/layout/About.svelte';
+	import Navigation from '@/lib/components/layout/Navigation.svelte';
 
 	export let data;
 
@@ -8,8 +9,9 @@
 </script>
 
 <div class="app">
-	<Navigation {user} />
+	<Navigation />
 	<slot />
+	<About />
 </div>
 
 <style>

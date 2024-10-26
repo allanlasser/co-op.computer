@@ -1,6 +1,4 @@
 <script lang="ts">
-	import About from '@/lib/components/About.svelte';
-
 	export let data;
 
 	$: user = data.session?.user;
@@ -25,7 +23,6 @@
 			</div>
 		</div>
 	{/if}
-	<About />
 </div>
 
 <style>
