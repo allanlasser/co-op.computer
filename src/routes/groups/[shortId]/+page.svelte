@@ -14,6 +14,7 @@
 			<h2>{group.name}</h2>
 			<div class="actions row">
 				<a class="button" href="{getGroupPath(group)}/edit">Edit</a>
+				<a class="button" href="{getGroupPath(group)}?/leave">Leave</a>
 			</div>
 		</header>
 		<div class="column">
@@ -58,21 +59,23 @@
 				<a class="action" href="/tools/new">Add Tool</a>
 			</header>
 			{#await data.tools then tools}
-				{#each tools as { tools: tool, users: user } (tool.id)}
-					<li class="tool row">
-						<div class="details">
-							<h4><a href={getToolPath(tool)}>{tool.name}</a></h4>
-							<p class="owner">{user.username}</p>
-						</div>
-						{#if user.id === tool.ownerId}
-							<div class="actions row">
-								<form method="POST" action="{getToolPath(tool)}?/request" use:enhance>
-									<button type="submit">Request</button>
-								</form>
+				<ul>
+					{#each tools as { tools: tool, users: user } (tool.id)}
+						<li class="tool row">
+							<div class="details">
+								<h4><a href={getToolPath(tool)}>{tool.name}</a></h4>
+								<p class="owner">{user.username}</p>
 							</div>
-						{/if}
-					</li>
-				{/each}
+							{#if user.id === tool.ownerId}
+								<div class="actions row">
+									<form method="POST" action="{getToolPath(tool)}?/request" use:enhance>
+										<button type="submit">Request</button>
+									</form>
+								</div>
+							{/if}
+						</li>
+					{/each}
+				</ul>
 			{/await}
 		</div>
 	</div>
@@ -97,6 +100,9 @@
 	h4 {
 		font-weight: var(--font-semi);
 		flex: 1 1 auto;
+	}
+	ul {
+		padding: 0;
 	}
 	li {
 		margin-bottom: 0.5rem;

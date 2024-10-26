@@ -7,7 +7,7 @@
 <div class="page">
 	<div class="card">
 		<header>
-			<h1>Search Tools</h1>
+			<h1>Available Tools</h1>
 		</header>
 		{#await data.tools}
 			<p>Loading tools…</p>

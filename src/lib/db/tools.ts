@@ -1,6 +1,7 @@
-import { eq } from 'drizzle-orm';
+import { eq, inArray } from 'drizzle-orm';
 import { db } from '$lib/db';
 import { Tools, Users, UsersToGroups } from '$lib/db/schema';
+import { getGroupsForUser } from './usersToGroups';
 
 export async function getTool(uuid: string) {
 	return db.selectDistinct().from(Tools).where(eq(Tools.id, uuid));
@@ -25,6 +26,16 @@ export async function getToolsForGroup(groupId: string) {
 		.innerJoin(Users, eq(Tools.ownerId, Users.id))
 		.innerJoin(UsersToGroups, eq(Users.id, UsersToGroups.userId))
 		.where(eq(UsersToGroups.groupId, groupId));
+}
+
+export async function getToolsForUser(userId: string) {
+	const groupIds = await getGroupsForUser(userId).then((groups) => groups.map((group) => group.id));
+	return db
+		.selectDistinctOn([Tools.id])
+		.from(Tools)
+		.innerJoin(Users, eq(Tools.ownerId, Users.id))
+		.innerJoin(UsersToGroups, eq(Tools.ownerId, UsersToGroups.userId))
+		.where(inArray(UsersToGroups.groupId, groupIds));
 }
 
 export async function createTool(newTool: typeof Tools.$inferInsert) {
