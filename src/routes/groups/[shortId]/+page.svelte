@@ -10,8 +10,11 @@
 
 <div class="page">
 	<div class="card">
-		<header>
+		<header class="row">
 			<h2>{group.name}</h2>
+			<div class="actions row">
+				<a class="button" href="{getGroupPath(group)}/edit">Edit</a>
+			</div>
 		</header>
 		<div class="column">
 			<header>
