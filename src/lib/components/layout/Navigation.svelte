@@ -19,37 +19,7 @@
 		display: block;
 		text-decoration: none;
 	}
-	.right {
-		text-align: right;
-	}
-	.left {
-		text-align: left;
-	}
 	.center {
-		text-align: center;
-	}
-	.account {
-		display: flex;
-		align-items: baseline;
-		gap: var(--unit);
-		font-size: var(--font-md);
-		font-weight: var(--font-semi);
-		padding: 0.5rem;
-		border-radius: var(--br-3);
-		border: 2px solid transparent;
-		&:hover,
-		&:focus {
-			border: 2px solid var(--gray-2);
-			box-shadow: 0 2px 0 var(--gray-2);
-		}
-		&:active {
-			transform: translateY(2px);
-			box-shadow: none;
-		}
-	}
-	.signout {
-		display: flex;
-		fill: orangered;
 		text-align: center;
 	}
 	.home {
@@ -72,11 +42,6 @@
 		font-size: calc(1.5 * var(--font-xl));
 		font-weight: var(--font-bold);
 		text-transform: uppercase;
-	}
-	.home p {
-		font-size: var(--font-xs);
-		font-weight: var(--font-semi);
-		opacity: var(--o-70);
 	}
 	.co,
 	.op,

@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
 	import { getGroupPath, getInvitationPath, getToolPath } from '$lib/utils/routes';
+	import ToolListItem from '@/lib/components/tools/ToolListItem.svelte';
 
 	export let data;
 
@@ -14,6 +15,7 @@
 			<h2>{group.name}</h2>
 			<div class="actions row">
 				<a class="button" href="{getGroupPath(group)}/edit">Edit</a>
+				<a class="button" href="{getGroupPath(group)}?/leave">Leave</a>
 			</div>
 		</header>
 		<div class="column">
@@ -49,6 +51,8 @@
 							</div>
 						{/if}
 					</li>
+				{:else}
+					<p class="empty">No pending invitations</p>
 				{/each}
 			{/await}
 		</div>
@@ -58,21 +62,13 @@
 				<a class="action" href="/tools/new">Add Tool</a>
 			</header>
 			{#await data.tools then tools}
-				{#each tools as { tools: tool, users: user } (tool.id)}
-					<li class="tool row">
-						<div class="details">
-							<h4><a href={getToolPath(tool)}>{tool.name}</a></h4>
-							<p class="owner">{user.username}</p>
-						</div>
-						{#if user.id === tool.ownerId}
-							<div class="actions row">
-								<form method="POST" action="{getToolPath(tool)}?/request" use:enhance>
-									<button type="submit">Request</button>
-								</form>
-							</div>
-						{/if}
-					</li>
-				{/each}
+				<ul>
+					{#each tools as { tools: tool, users: owner } (tool.id)}
+						<li class="tool row">
+							<ToolListItem {tool} {owner} isOwner={user.id === tool.ownerId} />
+						</li>
+					{/each}
+				</ul>
 			{/await}
 		</div>
 	</div>
@@ -97,6 +93,9 @@
 	h4 {
 		font-weight: var(--font-semi);
 		flex: 1 1 auto;
+	}
+	ul {
+		padding: 0;
 	}
 	li {
 		margin-bottom: 0.5rem;
@@ -127,21 +126,17 @@
 		padding: 0.125rem 0.25rem;
 		border-radius: var(--br-2);
 	}
-	.action {
+	.action,
+	.empty {
 		font-size: var(--font-sm);
 	}
 	.username {
 		flex: 0 1 auto;
+		padding: var(--unit) 0;
 	}
-	.details {
-		flex: 1 1 auto;
-	}
-	.tool {
-		padding: var(--unit);
-		border-radius: var(--br-2);
-		align-items: center;
-		&:hover {
-			background: #efefef;
-		}
+	.empty {
+		opacity: 0.5;
+		font-weight: var(--font-semi);
+		padding: var(--unit) 0;
 	}
 </style>
