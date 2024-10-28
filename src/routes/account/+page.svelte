@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { getGroupPath, getToolPath } from '$lib/utils/routes';
+	import ToolListItem from '@/lib/components/tools/ToolListItem.svelte';
 	import ShieldAlert from 'lucide-svelte/icons/shield-alert';
 
 	export let data;
@@ -28,11 +29,9 @@
 				<h3>Your Tools</h3>
 				{#await data.tools then results}
 					<ul>
-						{#each results as result}
+						{#each results as { tools: tool, users: owner } (tool.id)}
 							<li>
-								<div class="tool">
-									<h4><a href={getToolPath(result.tools)}>{result.tools.name}</a></h4>
-								</div>
+								<ToolListItem {tool} isOwner />
 							</li>
 						{:else}
 							<li>
