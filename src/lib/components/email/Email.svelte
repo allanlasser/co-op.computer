@@ -16,20 +16,24 @@
 			padding: '12px',
 			boxSizing: 'border-box'
 		},
-		center: {
-			display: 'inline-block',
-			margin: '0 auto'
-		},
-		logo: {
+		header: {
 			fontSize: '2rem',
 			fontWeight: '700',
 			textAlign: 'center',
 			margin: '1rem auto'
 		},
+		logo: {
+			display: 'inline-block',
+			margin: '0 auto'
+		},
+		pointer: {
+			cursor: 'pointer'
+		},
 		card: {
 			backgroundColor: '#ffffff',
 			border: '1px solid rgba(0,0,0,.1)',
 			borderBottomWidth: '2px',
+			margin: '0 auto',
 			padding: '1.5rem',
 			borderRadius: '0.5rem'
 		}
@@ -48,12 +52,12 @@
 		}
 	</style>
 	<Body style={styles.body}>
-		<Container style={styles.logo}>
-			<Link href={PUBLIC_BASE_URL}>
+		<Container style={styles.header}>
+			<Link href={PUBLIC_BASE_URL} style={styles.pointer}>
 				<Img
 					height="32px"
 					width="auto"
-					style={styles.center}
+					style={styles.logo}
 					src="{PUBLIC_BASE_URL}/logo.png"
 					alt="CO-OP"
 				/>
