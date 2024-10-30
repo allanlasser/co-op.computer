@@ -2,8 +2,7 @@
 	import { PUBLIC_BASE_URL } from '$env/static/public';
 	import { styleToString } from '$lib/utils/styles';
 	import type { StandardProperties } from 'csstype';
-	import { Html, Body, Head } from 'svelty-email';
-	import logo from './logo.png';
+	import { Html, Body, Head, Img, Link, Container } from 'svelty-email';
 	export let lang = 'en';
 
 	const styles: Record<string, StandardProperties> = {
@@ -17,11 +16,15 @@
 			padding: '12px',
 			boxSizing: 'border-box'
 		},
+		center: {
+			display: 'inline-block',
+			margin: '0 auto'
+		},
 		logo: {
 			fontSize: '2rem',
 			fontWeight: '700',
 			textAlign: 'center',
-			margin: '1rem'
+			margin: '1rem auto'
 		},
 		card: {
 			backgroundColor: '#ffffff',
@@ -45,13 +48,13 @@
 		}
 	</style>
 	<Body style={styles.body}>
-		<div style={styleToString(styles.logo)}>
-			<a href={PUBLIC_BASE_URL}>
-				<img height="32px" width="auto" src={logo} alt="CO-OP" />
-			</a>
-		</div>
-		<div style={styleToString(styles.card)}>
+		<Container style={styles.logo}>
+			<Link href={PUBLIC_BASE_URL}>
+				<Img height="32px" width="auto" style={styles.center} src="/logo.png" alt="CO-OP" />
+			</Link>
+		</Container>
+		<Container style={styles.card}>
 			<slot />
-		</div>
+		</Container>
 	</Body>
 </Html>
