@@ -39,7 +39,8 @@
 			textDecoration: 'none'
 		},
 		center: {
-			textAlign: 'center'
+			textAlign: 'center',
+			margin: '0 auto'
 		},
 		link: {
 			color: 'teal',
