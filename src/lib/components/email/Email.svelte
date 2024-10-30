@@ -50,7 +50,13 @@
 	<Body style={styles.body}>
 		<Container style={styles.logo}>
 			<Link href={PUBLIC_BASE_URL}>
-				<Img height="32px" width="auto" style={styles.center} src="/logo.png" alt="CO-OP" />
+				<Img
+					height="32px"
+					width="auto"
+					style={styles.center}
+					src="{PUBLIC_BASE_URL}/logo.png"
+					alt="CO-OP"
+				/>
 			</Link>
 		</Container>
 		<Container style={styles.card}>
