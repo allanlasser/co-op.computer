@@ -20,8 +20,8 @@ export const actions = {
 		const formData = await request.formData();
 		const fd = formDataToObject(formData);
 		// validate incoming data
-		const { data, error } = signUpSchema.safeParse(fd);
-		if (error) {
+		const { data, error, success } = await signUpSchema.safeParseAsync(fd);
+		if (!success || error) {
 			return fail(400, {
 				errors: error.flatten().fieldErrors
 			});

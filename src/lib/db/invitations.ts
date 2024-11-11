@@ -1,3 +1,4 @@
+import { validate as uuidValidate } from 'uuid';
 import { db } from '$lib/db';
 import { and, eq } from 'drizzle-orm';
 import { Invitations, type Invitation, Groups, Users, type User } from './schema';
@@ -56,6 +57,16 @@ export async function acceptInvitation(invitationId: string, user: User): Promis
 	// mark the invitation as accepted and add the new user to the invitation group
 	await updateInvitation({ id: result.invitations.id, accepted: true, toUserId: user.id });
 	await addUserToGroup(user.id, result.groups.id);
+}
+
+/** An invitation is valid if it is uneaccepted and matches the provided code. */
+export async function isInvitationValid(code: string): Promise<boolean> {
+	if (!uuidValidate(code)) return false;
+	const [invitation] = await db
+		.selectDistinct()
+		.from(Invitations)
+		.where(and(eq(Invitations.id, code), eq(Invitations.accepted, false)));
+	return Boolean(invitation);
 }
 
 // export async function updateGroup(group: Partial<Group>): Promise<Group> {
