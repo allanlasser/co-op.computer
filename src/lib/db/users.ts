@@ -50,3 +50,13 @@ export async function authenticateUser(email: string, password: string) {
 	ret.data = user;
 	return ret;
 }
+
+export async function isEmailUnique(email: string): Promise<boolean> {
+	const [user] = await db.selectDistinct().from(Users).where(eq(Users.email, email));
+	return !user;
+}
+
+export async function isUsernameUnique(username: string): Promise<boolean> {
+	const [user] = await db.selectDistinct().from(Users).where(eq(Users.username, username));
+	return !user;
+}

@@ -9,6 +9,22 @@ const preview: Preview = {
 				color: /(background|color)$/i,
 				date: /Date$/i
 			}
+		},
+		sveltekit_experimental: {
+			stores: {
+				page: {
+					url: new URL('http://localhost:6006/'),
+					data: {
+						test: 'passed'
+					}
+				},
+				navigating: {
+					route: {
+						id: '/storybook'
+					}
+				},
+				updated: true
+			}
 		}
 	}
 };

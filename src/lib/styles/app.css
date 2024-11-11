@@ -129,6 +129,18 @@ button,
 			transform: none;
 		}
 	}
+	&.primary {
+		background: teal;
+		color: var(--white);
+		box-shadow: 0 2px 0 #056767;
+		&:hover,
+		&:focus {
+			box-shadow: 0 3px 0 #056767;
+		}
+		&:active {
+			box-shadow: none;
+		}
+	}
 }
 
 a {
