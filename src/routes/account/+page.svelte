@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { getGroupPath, getToolPath } from '$lib/utils/routes';
 	import ToolListItem from '@/lib/components/tools/ToolListItem.svelte';
+	import Card from '@/lib/components/ui/Card.svelte';
 	import ShieldAlert from 'lucide-svelte/icons/shield-alert';
 
 	export let data;
@@ -10,7 +11,14 @@
 </script>
 
 <div class="account page">
-	<div class="card">
+	<header>
+		<h2>Welcome back, <a href="/users/{user.username}">{user.username}</a></h2>
+		<div class="row">
+			<a href="/account/settings">Settings</a>
+			<a href="/account/signout">Sign Out</a>
+		</div>
+	</header>
+	<div>
 		{#if !isVerified}
 			<div class="card tip row align-center">
 				<ShieldAlert />
@@ -20,13 +28,8 @@
 				</form>
 			</div>
 		{/if}
-		<header>
-			<h2>Welcome back, {user.username}</h2>
-			<a href="/account/signout">Sign Out</a>
-		</header>
 		<div class="row">
-			<div class="column">
-				<h3>Your Tools</h3>
+			<Card title="Your Tools">
 				{#await data.tools then results}
 					<ul>
 						{#each results as { tools: tool, users: owner } (tool.id)}
@@ -44,10 +47,9 @@
 					<p>Encountered an error while fetching your tools.</p>
 					<p>{error.message}</p>
 				{/await}
-			</div>
+			</Card>
 
-			<div class="column">
-				<h3>Your Groups</h3>
+			<Card title="Your Groups">
 				{#await data.groups then groups}
 					<ul>
 						{#each groups as group}
@@ -67,7 +69,7 @@
 					<p>Encountered an error while fetching your groups.</p>
 					<p>{error.message}</p>
 				{/await}
-			</div>
+			</Card>
 		</div>
 	</div>
 </div>
@@ -80,12 +82,12 @@
 		flex: 1 1 auto;
 		display: flex;
 		flex-direction: column;
-		gap: calc(4 * var(--unit));
+		gap: calc(1 * var(--unit));
 	}
 
 	.row {
 		display: flex;
-		gap: calc(4 * var(--unit));
+		gap: calc(2 * var(--unit));
 	}
 
 	.align-center {
@@ -111,7 +113,9 @@
 
 	header {
 		display: flex;
+		align-items: baseline;
 		justify-content: space-between;
+		padding: 2rem 0;
 	}
 
 	ul {
@@ -124,7 +128,7 @@
 
 	h2 {
 		font-size: calc(1.25 * var(--font-xl));
-		margin-bottom: 0.5rem;
+		font-weight: var(--font-semi);
 	}
 
 	h3 {
