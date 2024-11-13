@@ -16,7 +16,7 @@
 		<h2>Welcome back, <a href="/users/{user.username}">{user.username}</a></h2>
 		<div class="row">
 			<a href="/account/settings">Settings</a>
-			<a href="/account/signout">Sign Out</a>
+			<a data-sveltekit-preload-data="tap" href="/account/signout">Sign Out</a>
 		</div>
 	</header>
 	{#if !isVerified}
