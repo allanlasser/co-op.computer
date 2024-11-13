@@ -1,12 +1,11 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
 	import { page } from '$app/stores';
-	import type { Maybe } from '@/lib/utils/types';
 	import Field from '../ui/Field.svelte';
 
 	export let data: Record<string, string> = {};
 	export let invitation: string | null = data?.invitation || '';
-	export let errors: Maybe<string[] | Record<string, string[]>> = {};
+	export let errors: Record<string, string[]> = {};
 
 	$: origin = $page.url.origin;
 
@@ -16,7 +15,7 @@
 	let confirmPassword = data.confirmPassword || '';
 </script>
 
-<form method="POST" aria-label="Create account" use:enhance>
+<form action="/account/new" method="POST" aria-label="Create account" use:enhance>
 	<div class="row">
 		<Field
 			label="Invitation"
@@ -34,10 +33,10 @@
 	</div>
 	<div class="column">
 		<Field label="Email" errors={errors?.email}>
-			<input type="email" name="email" bind:value={email} />
+			<input type="email" name="email" bind:value={email} required />
 		</Field>
 		<Field label="Username" errors={errors?.username}>
-			<input type="text" name="username" bind:value={username} />
+			<input type="text" name="username" bind:value={username} required />
 			<div slot="help">
 				<p>Your username will be used in your profile URL:</p>
 				<p>{origin}/users/{username}</p>
@@ -46,10 +45,10 @@
 	</div>
 	<div class="column">
 		<Field label="Password" errors={errors?.password}>
-			<input type="text" name="password" bind:value={password} />
+			<input type="text" name="password" bind:value={password} required />
 		</Field>
 		<Field label="Confirm Password" errors={errors?.confirmPassword}>
-			<input type="text" name="confirmPassword" bind:value={confirmPassword} />
+			<input type="text" name="confirmPassword" bind:value={confirmPassword} required />
 		</Field>
 	</div>
 	<footer class="row center">

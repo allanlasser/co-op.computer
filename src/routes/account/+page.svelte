@@ -1,6 +1,8 @@
 <script lang="ts">
 	import { getGroupPath, getToolPath } from '$lib/utils/routes';
 	import ToolListItem from '@/lib/components/tools/ToolListItem.svelte';
+	import Card from '@/lib/components/ui/Card.svelte';
+	import { PlusSquare } from 'lucide-svelte';
 	import ShieldAlert from 'lucide-svelte/icons/shield-alert';
 
 	export let data;
@@ -10,69 +12,82 @@
 </script>
 
 <div class="account page">
-	<div class="card">
-		{#if !isVerified}
-			<div class="card tip row align-center">
-				<ShieldAlert />
-				<p>Your email, {user.email}, is not verified.</p>
-				<form method="POST" action="/account/verification">
-					<button type="submit">Verify My Email</button>
-				</form>
-			</div>
-		{/if}
-		<header>
-			<h2>Welcome back, {user.username}</h2>
-			<a href="/account/signout">Sign Out</a>
-		</header>
+	<header>
+		<h2>Welcome back, <a href="/users/{user.username}">{user.username}</a></h2>
 		<div class="row">
-			<div class="column">
-				<h3>Your Tools</h3>
-				{#await data.tools then results}
-					<ul>
-						{#each results as { tools: tool, users: owner } (tool.id)}
-							<li>
-								<ToolListItem {tool} isOwner />
-							</li>
-						{:else}
-							<li>
-								<p>You don't have any tools.</p>
-								<p><a href="/tools/new">Start by adding one</a></p>
-							</li>
-						{/each}
-					</ul>
-				{:catch error}
-					<p>Encountered an error while fetching your tools.</p>
-					<p>{error.message}</p>
-				{/await}
-			</div>
-
-			<div class="column">
-				<h3>Your Groups</h3>
-				{#await data.groups then groups}
-					<ul>
-						{#each groups as group}
-							<li>
-								<div class="tool">
-									<h4><a href={getGroupPath(group)}>{group.name}</a></h4>
-								</div>
-							</li>
-						{:else}
-							<li>
-								<p>You don't belong to any groups.</p>
-								<p><a href="/groups/new">Start your own</a></p>
-							</li>
-						{/each}
-					</ul>
-				{:catch error}
-					<p>Encountered an error while fetching your groups.</p>
-					<p>{error.message}</p>
-				{/await}
-			</div>
+			<a href="/account/settings">Settings</a>
+			<a href="/account/signout">Sign Out</a>
 		</div>
+	</header>
+	{#if !isVerified}
+		<div class="card tip row align-center">
+			<ShieldAlert />
+			<p>Your email, {user.email}, is not verified.</p>
+			<form method="POST" action="/account/verification">
+				<button type="submit">Verify My Email</button>
+			</form>
+		</div>
+	{/if}
+	<div class="row">
+		<Card title="Your Tools">
+			<a class="action" slot="action" href="/tools/new">
+				<PlusSquare size={14} strokeWidth={2.5} /> New Tool
+			</a>
+			{#await data.tools then results}
+				<ul>
+					{#each results as { tools: tool, users: owner } (tool.id)}
+						<li>
+							<ToolListItem {tool} isOwner />
+						</li>
+					{:else}
+						<li>
+							<p>You don't have any tools.</p>
+							<p><a href="/tools/new">Start by adding one</a></p>
+						</li>
+					{/each}
+				</ul>
+			{:catch error}
+				<p>Encountered an error while fetching your tools.</p>
+				<p>{error.message}</p>
+			{/await}
+		</Card>
+
+		<Card title="Your Groups">
+			<a class="action" slot="action" href="/groups/new">
+				<PlusSquare size={14} strokeWidth={2.5} />
+				New Group
+			</a>
+			{#await data.groups then groups}
+				<ul>
+					{#each groups as group}
+						<li>
+							<div class="tool">
+								<h4><a href={getGroupPath(group)}>{group.name}</a></h4>
+							</div>
+						</li>
+					{:else}
+						<li>
+							<p>You don't belong to any groups.</p>
+							<p><a href="/groups/new">Start your own</a></p>
+						</li>
+					{/each}
+				</ul>
+			{:catch error}
+				<p>Encountered an error while fetching your groups.</p>
+				<p>{error.message}</p>
+			{/await}
+		</Card>
 	</div>
 </div>
 
 <style>
+	.action {
+		text-decoration: none;
+		display: flex;
+		align-items: center;
+		gap: 0.5rem;
+		padding: 0 0.5rem;
+	}
 	.account {
 		width: 100%;
 		height: 100%;
@@ -80,7 +95,7 @@
 		flex: 1 1 auto;
 		display: flex;
 		flex-direction: column;
-		gap: calc(4 * var(--unit));
+		gap: calc(1 * var(--unit));
 	}
 
 	.row {
@@ -102,16 +117,11 @@
 		flex: 1 1 auto;
 	}
 
-	.column {
-		flex: 1 1 auto;
-		display: flex;
-		flex-direction: column;
-		gap: calc(var(--unit));
-	}
-
 	header {
 		display: flex;
+		align-items: baseline;
 		justify-content: space-between;
+		padding: 2rem 0;
 	}
 
 	ul {
@@ -124,7 +134,7 @@
 
 	h2 {
 		font-size: calc(1.25 * var(--font-xl));
-		margin-bottom: 0.5rem;
+		font-weight: var(--font-semi);
 	}
 
 	h3 {

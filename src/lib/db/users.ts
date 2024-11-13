@@ -14,6 +14,7 @@ export async function createUser(email: string, username: string, password: stri
 
 export async function updateUser(values: Partial<User>) {
 	if (!values.id) throw TypeError('Missing User ID');
+	if (values.password) values.password = await hash(values.password);
 	return db.update(Users).set(values).where(eq(Users.id, values.id)).returning();
 }
 

@@ -1,32 +1,30 @@
 import type { Meta, StoryObj } from '@storybook/svelte';
 
-import NewAccountForm from '../NewAccountForm.svelte';
+import EditAccount from '../EditAccount.svelte';
+import { user } from '@/tests/fixtures/users';
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories
 const meta = {
-	title: 'Forms / New Account',
-	component: NewAccountForm,
+	title: 'Forms / Edit Account',
+	component: EditAccount,
 	parameters: {
 		layout: 'centered'
 	}
-} satisfies Meta<NewAccountForm>;
+} satisfies Meta<EditAccount>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
 // More on writing stories with args: https://storybook.js.org/docs/writing-stories/args
-export const Empty: Story = {
-	args: {}
-};
-
-export const WithInvitation: Story = {
+export const WithUser: Story = {
 	args: {
-		invitation: 'e7b8a6d4-3b2f-4f5b-8b9a-1e2d3c4b5f6a'
+		user
 	}
 };
 
 export const WithErrors: Story = {
 	args: {
+		user,
 		errors: {
 			email: ['Email is required', 'Invalid email'],
 			username: ['Username must be at least two characters', 'Username is already in use'],

@@ -1,8 +1,10 @@
 <script lang="ts">
-	export let form;
+	import SignInForm from '$lib/components/forms/SignIn.svelte';
+	import Flash from '@/lib/components/ui/Flash.svelte';
+	import { getErrors } from '@/lib/utils/forms';
+	import { isArray, isRecord } from '@/lib/utils/types';
 
-	let email = '';
-	let password = '';
+	export let form;
 </script>
 
 <div class="card">
@@ -10,27 +12,29 @@
 		<h1>Sign In</h1>
 		<p>Need an account? <a href="/account/new">Sign Up</a></p>
 	</header>
-	{#if form?.errors}
-		{JSON.stringify(form.errors, null, 2)}
+	{#if form?.errors && isArray(form.errors)}
+		<Flash>
+			<div class="error">
+				<p>{form.errors.join(', ')}</p>
+			</div>
+		</Flash>
 	{/if}
-	<form method="POST">
-		<label>
-			Email
-			<input type="email" name="email" bind:value={email} />
-		</label>
-		<label>
-			Password
-			<input type="password" name="password" bind:value={password} />
-		</label>
-		<footer>
-			<button type="submit">Sign In</button>
-		</footer>
-	</form>
+	<SignInForm errors={getErrors(form?.errors)} />
 </div>
 
 <style>
 	.card {
 		width: 100%;
+		max-width: 32rem;
+		margin: 0 auto;
+	}
+	.error {
+		padding: 1rem;
+		background: var(--red-1);
+		color: var(--red-5);
+	}
+	.error p {
+		text-align: center;
 		max-width: 32rem;
 		margin: 0 auto;
 	}
@@ -40,10 +44,5 @@
 		gap: calc(2 * var(--unit));
 		justify-content: space-between;
 		align-items: baseline;
-	}
-	form {
-		display: flex;
-		flex-direction: column;
-		gap: calc(2 * var(--unit));
 	}
 </style>

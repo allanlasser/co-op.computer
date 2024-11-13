@@ -1,4 +1,6 @@
 <script lang="ts">
+	import Flash from '@/lib/components/ui/Flash.svelte';
+
 	export let data;
 	export let form;
 </script>
@@ -22,7 +24,11 @@
 				<p>Your email must be verified to create groups and invite members.</p>
 			</header>
 			{#if form?.success}
-				<p class="success">{form.message}</p>
+				<Flash>
+					<div class="success">
+						<p>{form?.message}</p>
+					</div>
+				</Flash>
 			{:else}
 				{#if form?.errors}
 					<p class="error">
@@ -40,6 +46,7 @@
 <style>
 	.card {
 		text-align: center;
+		position: relative;
 	}
 	h2 {
 		margin-bottom: var(--unit);
