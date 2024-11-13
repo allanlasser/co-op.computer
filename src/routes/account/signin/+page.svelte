@@ -2,7 +2,7 @@
 	import SignInForm from '$lib/components/forms/SignIn.svelte';
 	import Flash from '@/lib/components/ui/Flash.svelte';
 	import { getErrors } from '@/lib/utils/forms';
-	import { isRecord } from '@/lib/utils/types';
+	import { isArray, isRecord } from '@/lib/utils/types';
 
 	export let form;
 </script>
@@ -12,7 +12,7 @@
 		<h1>Sign In</h1>
 		<p>Need an account? <a href="/account/new">Sign Up</a></p>
 	</header>
-	{#if form?.errors && !isRecord(form.errors)}
+	{#if form?.errors && isArray(form.errors)}
 		<Flash>
 			<div class="error">
 				<p>{form.errors.join(', ')}</p>
