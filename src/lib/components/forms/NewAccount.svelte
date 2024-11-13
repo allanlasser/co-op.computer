@@ -1,12 +1,11 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
 	import { page } from '$app/stores';
-	import type { Maybe } from '@/lib/utils/types';
 	import Field from '../ui/Field.svelte';
 
 	export let data: Record<string, string> = {};
 	export let invitation: string | null = data?.invitation || '';
-	export let errors: Maybe<string[] | Record<string, string[]>> = {};
+	export let errors: Record<string, string[]> = {};
 
 	$: origin = $page.url.origin;
 

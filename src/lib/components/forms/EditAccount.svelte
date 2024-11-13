@@ -2,10 +2,10 @@
 	import { page } from '$app/stores';
 	import { enhance } from '$app/forms';
 	import type { User } from '@/lib/db/schema';
-	import type { Maybe } from '@/lib/utils/types';
 	import Field from '../ui/Field.svelte';
+	import { CheckCircle2, XCircle } from 'lucide-svelte';
 
-	export let errors: Maybe<string[] | Record<string, string[]>> = {};
+	export let errors: Record<string, string[]> = {};
 	export let user: User;
 
 	$: origin = $page.url.origin;
@@ -15,9 +15,29 @@
 	let username = user.username;
 </script>
 
-<form action="/account/settings?/edit" method="POST" aria-label="Edit account" use:enhance>
+<form
+	action="/account/settings?/edit"
+	method="POST"
+	aria-label="Edit account"
+	use:enhance={() =>
+		({ update }) =>
+			update({ reset: false })}
+>
 	<Field label="Email" errors={errors?.email}>
 		<input type="email" name="email" bind:value={email} />
+		<div slot="help">
+			{#if email === user.verifiedEmail}
+				<p class="help success">
+					<CheckCircle2 size={16} strokeWidth={2} />
+					This email is verified
+				</p>
+			{:else}
+				<p class="help error">
+					<XCircle size={16} strokeWidth={2} />
+					This email is unverified
+				</p>
+			{/if}
+		</div>
 	</Field>
 	<Field label="Username" errors={errors?.username}>
 		<input type="text" name="username" bind:value={username} />
@@ -38,5 +58,20 @@
 	}
 	button {
 		align-self: flex-start;
+	}
+	.help {
+		display: flex;
+		align-items: center;
+		gap: var(--unit);
+	}
+	.success {
+		color: teal;
+		fill: teal;
+		stroke: teal;
+	}
+	.error {
+		color: orangered;
+		fill: orangered;
+		stroke: orangered;
 	}
 </style>

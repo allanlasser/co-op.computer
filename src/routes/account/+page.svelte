@@ -2,6 +2,7 @@
 	import { getGroupPath, getToolPath } from '$lib/utils/routes';
 	import ToolListItem from '@/lib/components/tools/ToolListItem.svelte';
 	import Card from '@/lib/components/ui/Card.svelte';
+	import { PlusSquare } from 'lucide-svelte';
 	import ShieldAlert from 'lucide-svelte/icons/shield-alert';
 
 	export let data;
@@ -18,63 +19,75 @@
 			<a href="/account/signout">Sign Out</a>
 		</div>
 	</header>
-	<div>
-		{#if !isVerified}
-			<div class="card tip row align-center">
-				<ShieldAlert />
-				<p>Your email, {user.email}, is not verified.</p>
-				<form method="POST" action="/account/verification">
-					<button type="submit">Verify My Email</button>
-				</form>
-			</div>
-		{/if}
-		<div class="row">
-			<Card title="Your Tools">
-				{#await data.tools then results}
-					<ul>
-						{#each results as { tools: tool, users: owner } (tool.id)}
-							<li>
-								<ToolListItem {tool} isOwner />
-							</li>
-						{:else}
-							<li>
-								<p>You don't have any tools.</p>
-								<p><a href="/tools/new">Start by adding one</a></p>
-							</li>
-						{/each}
-					</ul>
-				{:catch error}
-					<p>Encountered an error while fetching your tools.</p>
-					<p>{error.message}</p>
-				{/await}
-			</Card>
-
-			<Card title="Your Groups">
-				{#await data.groups then groups}
-					<ul>
-						{#each groups as group}
-							<li>
-								<div class="tool">
-									<h4><a href={getGroupPath(group)}>{group.name}</a></h4>
-								</div>
-							</li>
-						{:else}
-							<li>
-								<p>You don't belong to any groups.</p>
-								<p><a href="/groups/new">Start your own</a></p>
-							</li>
-						{/each}
-					</ul>
-				{:catch error}
-					<p>Encountered an error while fetching your groups.</p>
-					<p>{error.message}</p>
-				{/await}
-			</Card>
+	{#if !isVerified}
+		<div class="card tip row align-center">
+			<ShieldAlert />
+			<p>Your email, {user.email}, is not verified.</p>
+			<form method="POST" action="/account/verification">
+				<button type="submit">Verify My Email</button>
+			</form>
 		</div>
+	{/if}
+	<div class="row">
+		<Card title="Your Tools">
+			<a class="action" slot="action" href="/tools/new">
+				<PlusSquare size={14} strokeWidth={2.5} /> New Tool
+			</a>
+			{#await data.tools then results}
+				<ul>
+					{#each results as { tools: tool, users: owner } (tool.id)}
+						<li>
+							<ToolListItem {tool} isOwner />
+						</li>
+					{:else}
+						<li>
+							<p>You don't have any tools.</p>
+							<p><a href="/tools/new">Start by adding one</a></p>
+						</li>
+					{/each}
+				</ul>
+			{:catch error}
+				<p>Encountered an error while fetching your tools.</p>
+				<p>{error.message}</p>
+			{/await}
+		</Card>
+
+		<Card title="Your Groups">
+			<a class="action" slot="action" href="/groups/new">
+				<PlusSquare size={14} strokeWidth={2.5} />
+				New Group
+			</a>
+			{#await data.groups then groups}
+				<ul>
+					{#each groups as group}
+						<li>
+							<div class="tool">
+								<h4><a href={getGroupPath(group)}>{group.name}</a></h4>
+							</div>
+						</li>
+					{:else}
+						<li>
+							<p>You don't belong to any groups.</p>
+							<p><a href="/groups/new">Start your own</a></p>
+						</li>
+					{/each}
+				</ul>
+			{:catch error}
+				<p>Encountered an error while fetching your groups.</p>
+				<p>{error.message}</p>
+			{/await}
+		</Card>
 	</div>
 </div>
 
 <style>
+	.action {
+		text-decoration: none;
+		display: flex;
+		align-items: center;
+		gap: 0.5rem;
+		padding: 0 0.5rem;
+	}
 	.account {
 		width: 100%;
 		height: 100%;
@@ -87,7 +100,7 @@
 
 	.row {
 		display: flex;
-		gap: calc(2 * var(--unit));
+		gap: calc(4 * var(--unit));
 	}
 
 	.align-center {
@@ -102,13 +115,6 @@
 	}
 	.tip p {
 		flex: 1 1 auto;
-	}
-
-	.column {
-		flex: 1 1 auto;
-		display: flex;
-		flex-direction: column;
-		gap: calc(var(--unit));
 	}
 
 	header {

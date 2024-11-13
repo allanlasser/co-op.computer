@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/svelte';
 
-import NewAccountForm from '../NewAccountForm.svelte';
+import NewAccountForm from '../NewAccount.svelte';
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories
 const meta = {

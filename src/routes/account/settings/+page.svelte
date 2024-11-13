@@ -2,6 +2,9 @@
 	import ChangePasswordForm from '@/lib/components/forms/ChangePassword.svelte';
 	import EditAccountForm from '@/lib/components/forms/EditAccount.svelte';
 	import Card from '@/lib/components/ui/Card.svelte';
+	import Flash from '@/lib/components/ui/Flash.svelte';
+	import { getErrors } from '@/lib/utils/forms';
+	import { X } from 'lucide-svelte';
 
 	export let data;
 	export let form;
@@ -16,12 +19,20 @@
 				><a href="/account">Account</a><span class="separator">&nbsp;/&nbsp;</span></span
 			>Settings
 		</h1>
+		{#if form?.success}
+			<Flash let:hide>
+				<div class="success">
+					<p>{form?.message}</p>
+					<button on:click={hide}><X size={12} strokeWidth={3} /></button>
+				</div>
+			</Flash>
+		{/if}
 	</header>
 	<Card title="Edit Account">
-		<EditAccountForm {user} errors={form?.errors} />
+		<EditAccountForm {user} errors={getErrors(form?.errors)} />
 	</Card>
 	<Card title="Change Password">
-		<ChangePasswordForm errors={form?.errors} />
+		<ChangePasswordForm errors={getErrors(form?.errors)} />
 	</Card>
 </div>
 
@@ -36,6 +47,7 @@
 	header {
 		grid-column: 1 / -1;
 		padding: 2rem 0;
+		position: relative;
 	}
 	h1 {
 		font-size: calc(1.25 * var(--font-xl));
@@ -56,5 +68,16 @@
 	}
 	header {
 		flex: 1 1 100%;
+	}
+	.success {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		font-weight: var(--font-semi);
+		color: var(--green-4);
+		border: 1px solid var(--green-2);
+		border-radius: 0.5rem;
+		background: var(--green-1);
+		padding: 1rem;
 	}
 </style>

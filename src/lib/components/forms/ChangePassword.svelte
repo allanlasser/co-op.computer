@@ -1,9 +1,8 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
-	import type { Maybe } from '@/lib/utils/types';
 	import Field from '../ui/Field.svelte';
 
-	export let errors: Maybe<string[] | Record<string, string[]>> = {};
+	export let errors: Record<string, string[]> = {};
 
 	let password = '';
 	let confirmPassword = '';

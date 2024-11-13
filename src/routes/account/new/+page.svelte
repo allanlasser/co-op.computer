@@ -1,5 +1,6 @@
 <script lang="ts">
-	import NewAccountForm from '@/lib/components/forms/NewAccountForm.svelte';
+	import NewAccountForm from '@/lib/components/forms/NewAccount.svelte';
+	import { getErrors } from '@/lib/utils/forms';
 
 	export let data;
 	export let form;
@@ -10,7 +11,7 @@
 		<h1>Sign Up</h1>
 		<p>Already have an account? <a href="/account/signin">Sign In</a></p>
 	</header>
-	<NewAccountForm invitation={data.invitation} errors={form?.errors} />
+	<NewAccountForm invitation={data.invitation} errors={getErrors(form?.errors)} />
 </div>
 
 <style>
