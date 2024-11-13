@@ -1,18 +1,6 @@
-import { getTools, createTool } from '$lib/db/tools';
+import { redirect } from '@sveltejs/kit';
 
 export async function load(event) {
 	const session = event.locals.session;
-	return {
-		session,
-		tools: getTools()
-	};
+	if (session) return redirect(302, `/account/`);
 }
-
-export const actions = {
-	create: async ({ request }) => {
-		const data = await request.formData();
-		const name = String(data.get('name'));
-		const newTool = await createTool({ name });
-		return { success: true, data: { ...newTool } };
-	}
-};

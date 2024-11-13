@@ -1,28 +1,11 @@
-<script lang="ts">
-	export let data;
-
-	$: user = data.session?.user;
-</script>
-
 <div class="page">
-	{#if user}
-		<div class="card">
-			<h1>hello <a href="/account">{user.username}</a></h1>
-			<ul>
-				<li><a href="/tools">Find a Tool</a></li>
-				<li><a href="/tools/new">Add a Tool</a></li>
-				<li><a href="/groups/new">Start a Group</a></li>
-			</ul>
+	<div class="card">
+		<h1>hello world</h1>
+		<div class="auth-buttons">
+			<a class="button" href="/account/new">Sign Up</a>
+			<a class="button" href="/account/signin">Sign In</a>
 		</div>
-	{:else}
-		<div class="card">
-			<h1>hello world</h1>
-			<div class="auth-buttons">
-				<a class="button" href="/account/new">Sign Up</a>
-				<a class="button" href="/account/signin">Sign In</a>
-			</div>
-		</div>
-	{/if}
+	</div>
 </div>
 
 <style>
