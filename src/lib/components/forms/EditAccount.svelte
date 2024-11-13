@@ -5,6 +5,7 @@
 	import Field from '../ui/Field.svelte';
 	import { CheckCircle2, XCircle } from 'lucide-svelte';
 
+	export let action: string;
 	export let errors: Record<string, string[]> = {};
 	export let user: User;
 
@@ -16,7 +17,7 @@
 </script>
 
 <form
-	action="/account/settings?/edit"
+	{action}
 	method="POST"
 	aria-label="Edit account"
 	use:enhance={() =>

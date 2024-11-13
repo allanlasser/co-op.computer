@@ -3,11 +3,14 @@
 </script>
 
 <div class="column">
-	<header>
-		<slot name="title"><legend class="title">{title}</legend></slot>
-		<div class="action"><slot name="action" /></div>
-	</header>
-	<div class="card column">
+	{#if title || $$slots.title || $$slots.action}
+		<header>
+			{#if title || $$slots.title}<slot name="title"><legend class="title">{title}</legend></slot
+				>{/if}
+			{#if $$slots.action}<div class="action"><slot name="action" /></div>{/if}
+		</header>
+	{/if}
+	<div class="card">
 		<slot />
 	</div>
 </div>

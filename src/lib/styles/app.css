@@ -181,8 +181,12 @@ a {
 	border-bottom-width: 3px;
 }
 
+.row {
+	display: flex;
+}
+
 .column {
-	flex: 1 1 16rem;
+	flex: 1 1 auto;
 	display: flex;
 	flex-direction: column;
 	gap: calc(2 * var(--unit));
@@ -206,4 +210,24 @@ a {
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
+}
+
+.xs {
+	font-size: var(--font-xs);
+}
+
+.sm {
+	font-size: var(--font-sm);
+}
+
+.md {
+	font-size: var(--font-md);
+}
+
+.lg {
+	font-size: var(--font-lg);
+}
+
+.xl {
+	font-size: var(--font-xl);
 }
