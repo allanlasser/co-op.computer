@@ -42,6 +42,24 @@ export const passwordChangeSchema = object({
 	message: 'Passwords do not match'
 });
 
+export const forgotPasswordSchema = object({
+	email: string({ required_error: 'Email is required' })
+		.min(1, 'Email is required')
+		.email('Invalid email')
+});
+
+export const passwordResetSchema = object({
+	code: string({ required_error: 'Code is required' }).length(128, 'Invalid code'),
+	password: string({ required_error: 'Password is required' })
+		.min(1, 'Password is required')
+		.min(8, 'Password must be more than 8 characters')
+		.max(32, 'Password must be less than 32 characters'),
+	confirmPassword: string()
+}).refine((data) => data.password === data.confirmPassword, {
+	path: ['confirmPassword'], // Specify the field that will display the error
+	message: 'Passwords do not match'
+});
+
 export const signUpSchema = object({
 	invitation: string({ required_error: 'Invitation is required' })
 		.min(1, 'Invitation is required')

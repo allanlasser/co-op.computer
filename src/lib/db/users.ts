@@ -25,6 +25,11 @@ export async function getUser(id: string, email: string) {
 		.where(and(eq(Users.id, id), eq(Users.email, email)));
 }
 
+export async function getUserById(id: string): Promise<Maybe<User>> {
+	const [user] = await db.selectDistinct().from(Users).where(eq(Users.id, id));
+	return user;
+}
+
 export async function getUserByEmail(email: string): Promise<Maybe<User>> {
 	const [user] = await db
 		.selectDistinct()
