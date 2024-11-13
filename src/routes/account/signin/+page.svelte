@@ -1,48 +1,36 @@
 <script lang="ts">
 	import SignInForm from '$lib/components/forms/SignIn.svelte';
-	import Flash from '@/lib/components/ui/Flash.svelte';
-	import { getErrors } from '@/lib/utils/forms';
-	import { isArray, isRecord } from '@/lib/utils/types';
+	import Card from '@/lib/components/ui/Card.svelte';
 
 	export let form;
 </script>
 
-<div class="card">
+<div class="page">
 	<header>
 		<h1>Sign In</h1>
-		<p>Need an account? <a href="/account/new">Sign Up</a></p>
+		<div class="column sm">
+			<p>Need an account? <a href="/account/new">Sign Up</a></p>
+		</div>
 	</header>
-	{#if form?.errors && isArray(form.errors)}
-		<Flash>
-			<div class="error">
-				<p>{form.errors.join(', ')}</p>
-			</div>
-		</Flash>
-	{/if}
-	<SignInForm errors={getErrors(form?.errors)} />
+	<Card>
+		<SignInForm errors={form?.errors} />
+	</Card>
 </div>
 
 <style>
-	.card {
-		width: 100%;
-		max-width: 32rem;
-		margin: 0 auto;
-	}
-	.error {
-		padding: 1rem;
-		background: var(--red-1);
-		color: var(--red-5);
-	}
-	.error p {
-		text-align: center;
-		max-width: 32rem;
-		margin: 0 auto;
-	}
 	header {
 		display: flex;
 		flex-wrap: wrap;
 		gap: calc(2 * var(--unit));
 		justify-content: space-between;
-		align-items: baseline;
+		align-items: flex-end;
+		margin-bottom: 1rem;
+	}
+	h1 {
+		flex: 1 1 auto;
+	}
+	.column {
+		flex: 0 0 auto;
+		gap: calc(0.5 * var(--unit));
 	}
 </style>
