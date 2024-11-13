@@ -1,5 +1,6 @@
 <script lang="ts">
 	import Flash from '@/lib/components/ui/Flash.svelte';
+	import Toast from '@/lib/components/ui/Toast.svelte';
 
 	export let data;
 	export let form;
@@ -25,15 +26,15 @@
 			</header>
 			{#if form?.success}
 				<Flash>
-					<div class="success">
+					<Toast type="success">
 						<p>{form?.message}</p>
-					</div>
+					</Toast>
 				</Flash>
 			{:else}
 				{#if form?.errors}
-					<p class="error">
-						{JSON.stringify(form.errors, null, 2)}
-					</p>
+					<Toast type="error">
+						<p>{form.errors.join(', ')}</p>
+					</Toast>
 				{/if}
 				<form method="POST">
 					<button type="submit">Send Link</button>

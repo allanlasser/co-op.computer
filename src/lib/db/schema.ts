@@ -124,6 +124,28 @@ export const VerificationsRelations = relations(Verifications, ({ one }) => ({
 
 export type Verification = typeof Verifications.$inferSelect;
 
+export const PasswordResets = pgTable('password_resets', {
+	id: uuid('id')
+		.primaryKey()
+		.notNull()
+		.default(sql`gen_random_uuid()`),
+	userId: uuid('user_id')
+		.notNull()
+		.references(() => Users.id),
+	code: text('code').notNull(),
+	expiresAt: timestamp('expires_at').notNull(),
+	createdAt: timestamp('created_at').defaultNow()
+});
+
+export const PasswordResetsRelations = relations(PasswordResets, ({ one }) => ({
+	user: one(Users, {
+		fields: [PasswordResets.userId],
+		references: [Users.id]
+	})
+}));
+
+export type PasswordReset = typeof PasswordResets.$inferSelect;
+
 export const Tools = pgTable('tools', {
 	id: uuid('id')
 		.primaryKey()

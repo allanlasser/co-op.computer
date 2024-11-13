@@ -20,9 +20,6 @@
 			</label>
 			<button>Add tool</button>
 		</form>
-		{#if form?.success}
-			<p>Tool added!</p>
-		{/if}
 	</div>
 </div>
 

@@ -3,8 +3,8 @@
 	import EditAccountForm from '@/lib/components/forms/EditAccount.svelte';
 	import Card from '@/lib/components/ui/Card.svelte';
 	import Flash from '@/lib/components/ui/Flash.svelte';
+	import Toast from '@/lib/components/ui/Toast.svelte';
 	import { getErrors } from '@/lib/utils/forms';
-	import { X } from 'lucide-svelte';
 
 	export let data;
 	export let form;
@@ -19,20 +19,19 @@
 				><a href="/account">Account</a><span class="separator">&nbsp;/&nbsp;</span></span
 			>Settings
 		</h1>
-		{#if form?.success}
-			<Flash let:hide>
-				<div class="success">
-					<p>{form?.message}</p>
-					<button on:click={hide}><X size={12} strokeWidth={3} /></button>
-				</div>
-			</Flash>
-		{/if}
 	</header>
+	{#if form?.success}
+		<Flash>
+			<Toast type="success">
+				<p>{form?.message}</p>
+			</Toast>
+		</Flash>
+	{/if}
 	<Card title="Edit Account">
-		<EditAccountForm {user} errors={getErrors(form?.errors)} />
+		<EditAccountForm action="/account/settings?/edit" {user} errors={getErrors(form?.errors)} />
 	</Card>
 	<Card title="Change Password">
-		<ChangePasswordForm errors={getErrors(form?.errors)} />
+		<ChangePasswordForm action="/account/settings?/password" errors={getErrors(form?.errors)} />
 	</Card>
 </div>
 
@@ -68,16 +67,5 @@
 	}
 	header {
 		flex: 1 1 100%;
-	}
-	.success {
-		display: flex;
-		align-items: center;
-		justify-content: space-between;
-		font-weight: var(--font-semi);
-		color: var(--green-4);
-		border: 1px solid var(--green-2);
-		border-radius: 0.5rem;
-		background: var(--green-1);
-		padding: 1rem;
 	}
 </style>
