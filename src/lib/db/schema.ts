@@ -1,5 +1,14 @@
 import { sql, relations } from 'drizzle-orm';
-import { text, pgTable, uuid, serial, timestamp, primaryKey, boolean } from 'drizzle-orm/pg-core';
+import {
+	text,
+	pgTable,
+	uuid,
+	serial,
+	timestamp,
+	primaryKey,
+	boolean,
+	index
+} from 'drizzle-orm/pg-core';
 
 export const Users = pgTable('users', {
 	id: uuid('id')
@@ -54,6 +63,8 @@ export const UsersToGroups = pgTable(
 		pk: primaryKey({ columns: [t.userId, t.groupId] })
 	})
 );
+
+export type UsersToGroups = typeof UsersToGroups.$inferSelect;
 
 export const usersToGroupsRelations = relations(UsersToGroups, ({ one }) => ({
 	group: one(Groups, {
@@ -146,15 +157,24 @@ export const PasswordResetsRelations = relations(PasswordResets, ({ one }) => ({
 
 export type PasswordReset = typeof PasswordResets.$inferSelect;
 
-export const Tools = pgTable('tools', {
-	id: uuid('id')
-		.primaryKey()
-		.notNull()
-		.default(sql`gen_random_uuid()`), // Generate a UUID by default
-	name: text('name').notNull(),
-	createdAt: timestamp('createdAt').defaultNow(),
-	ownerId: uuid('owner_id').references(() => Users.id)
-});
+export const Tools = pgTable(
+	'tools',
+	{
+		id: uuid('id')
+			.primaryKey()
+			.notNull()
+			.default(sql`gen_random_uuid()`), // Generate a UUID by default
+		name: text('name').notNull(),
+		createdAt: timestamp('createdAt').defaultNow(),
+		ownerId: uuid('owner_id').references(() => Users.id)
+	},
+	(table) => ({
+		nameSearchIndex: index('tool_name_search_index').using(
+			'gin',
+			sql`to_tsvector('english', ${table.name})`
+		)
+	})
+);
 
 export const ToolsRelations = relations(Tools, ({ one }) => ({
 	owner: one(Users, {

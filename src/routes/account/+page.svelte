@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { getGroupPath, getToolPath } from '$lib/utils/routes';
+	import SearchTools from '@/lib/components/tools/SearchTools.svelte';
 	import ToolListItem from '@/lib/components/tools/ToolListItem.svelte';
 	import Card from '@/lib/components/ui/Card.svelte';
 	import { PlusSquare } from 'lucide-svelte';
@@ -28,6 +29,9 @@
 			</form>
 		</div>
 	{/if}
+	<div class="row">
+		<SearchTools />
+	</div>
 	<div class="row">
 		<Card title="Your Tools">
 			<a class="action" slot="action" href="/tools/new">

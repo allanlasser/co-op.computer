@@ -1,4 +1,4 @@
-import { and, not, eq, inArray } from 'drizzle-orm';
+import { and, not, eq, inArray, like } from 'drizzle-orm';
 import { db } from '$lib/db';
 import { Tools, Users, UsersToGroups } from '$lib/db/schema';
 import { getGroupsForUser } from './usersToGroups';
@@ -36,6 +36,22 @@ export async function getToolsForUser(userId: string) {
 		.innerJoin(Users, eq(Tools.ownerId, Users.id))
 		.innerJoin(UsersToGroups, eq(Tools.ownerId, UsersToGroups.userId))
 		.where(and(not(eq(Tools.ownerId, userId)), inArray(UsersToGroups.groupId, groupIds)));
+}
+
+export async function searchAvailableTools(userId: string, query: string) {
+	const groupIds = await getGroupsForUser(userId).then((groups) => groups.map((group) => group.id));
+	return db
+		.selectDistinctOn([Tools.id])
+		.from(Tools)
+		.innerJoin(Users, eq(Tools.ownerId, Users.id))
+		.innerJoin(UsersToGroups, eq(Tools.ownerId, UsersToGroups.userId))
+		.where(
+			and(
+				not(eq(Tools.ownerId, userId)),
+				inArray(UsersToGroups.groupId, groupIds),
+				like(Tools.name, `%${query}%`)
+			)
+		);
 }
 
 export async function createTool(newTool: typeof Tools.$inferInsert) {
