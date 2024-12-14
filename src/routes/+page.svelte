@@ -1,4 +1,4 @@
-<div class="page">
+<div class="page terminal">
 	<div class="card">
 		<h1>hello world</h1>
 		<div class="auth-buttons">

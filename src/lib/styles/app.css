@@ -1,246 +1,72 @@
 :root {
-	--unit: 0.5rem;
-	/* Border Radius */
-	--br-1: 0.125rem;
-	--br-2: 0.25rem;
-	--br-3: 0.5rem;
-	--br-4: 0.75rem;
-	--br-5: 0.1rem;
-	/* Opacity */
-	--o-10: 0.1;
-	--o-20: 0.2;
-	--o-30: 0.3;
-	--o-40: 0.4;
-	--o-50: 0.5;
-	--o-60: 0.6;
-	--o-70: 0.7;
-	--o-80: 0.8;
-	--o-90: 0.9;
+	--font-mono: 'IBM Plex Mono', 'Fira Code', 'Monaco', 'Consolas', monospace;
 
-	--font-sans: 'IBM Plex Sans', 'Inter', sans-serif;
-	--font-mono: 'IBM Plex Mono', 'Monaco', monospace;
+	/* Standard colors for text, background, and stroke */
+	--terminal-background: #1f2233;
+	--terminal-color: #ffa784;
+	--terminal-stroke-color: rgba(255, 167, 132, 0.5);
 
-	--font-bold: 800;
-	--font-semi: 600;
-	--font-norm: 400;
+	/* Inverted colors for highlighted areas */
+	--terminal-inverted-background: var(--terminal-color);
+	--terminal-inverted-color: var(--terminal-background);
+	--terminal-inverted-stroke-color: rgba(31, 34, 51, 0.5);
 
-	--font-xs: 0.75rem;
-	--font-sm: 0.875rem;
-	--font-md: 1rem;
-	--font-lg: 1.125rem;
-	--font-xl: 1.25rem;
+	/* Hardware colors */
+	--hardware: #57a494;
+	--hardware-inset: var(--black-6);
 
-	/* Semantic Colors */
-	--background: #fff9eb;
-	--foreground: #1c2253;
-	--interact: teal;
-
-	/* HEX Colors */
-	--black: #000000;
+	/* Utility Colors */
 	--white: #ffffff;
-	--gray-1: rgba(0, 0, 0, 0.1);
-	--gray-2: rgba(0, 0, 0, 0.2);
-	--gray-3: rgba(0, 0, 0, 0.3);
-	--gray-4: rgba(0, 0, 0, 0.4);
-	--gray-5: rgba(0, 0, 0, 0.5);
+	--white-0: rgba(255, 255, 255, 0);
+	--white-1: rgba(255, 255, 255, 0.1);
+	--white-2: rgba(255, 255, 255, 0.2);
+	--white-3: rgba(255, 255, 255, 0.3);
+	--white-4: rgba(255, 255, 255, 0.4);
+	--white-5: rgba(255, 255, 255, 0.5);
+	--white-6: rgba(255, 255, 255, 0.6);
+	--white-7: rgba(255, 255, 255, 0.7);
+	--white-8: rgba(255, 255, 255, 0.8);
+	--white-9: rgba(255, 255, 255, 0.9);
 
-	--green-1: #f9fffd;
-	--green-2: #a0e6cd;
-	--green-3: #32cc97;
-	--green-4: #28a57b;
-	--green-5: #1e3c32;
-
-	--red-1: #ffece5;
-	--red-2: #ffa280;
-	--red-3: #ff4500;
-	--red-4: #802200;
-	--red-5: #1a0700;
+	--black: #000000;
+	--black-0: rgba(0, 0, 0, 0);
+	--black-1: rgba(0, 0, 0, 0.1);
+	--black-2: rgba(0, 0, 0, 0.2);
+	--black-3: rgba(0, 0, 0, 0.3);
+	--black-4: rgba(0, 0, 0, 0.4);
+	--black-5: rgba(0, 0, 0, 0.5);
+	--black-6: rgba(0, 0, 0, 0.6);
+	--black-7: rgba(0, 0, 0, 0.7);
+	--black-8: rgba(0, 0, 0, 0.8);
+	--black-9: rgba(0, 0, 0, 0.9);
 }
 
 * {
 	box-sizing: border-box;
 	margin: 0;
+	padding: 0;
 }
 
-html,
-body {
-	width: 100%;
-	height: 100%;
-	margin: 0;
-	background: var(--background);
-	color: var(--foreground);
-	font-family: var(--font-sans);
+.terminal {
+	font-family: var(--font-mono);
+	color: var(--terminal-color);
+	background: var(--terminal-background);
+	line-height: 1.75rem;
 }
 
-label {
-	width: 100%;
-	display: flex;
-	flex-direction: column;
-	gap: calc(0.5 * var(--unit));
-	font-size: var(--font-sm);
-	font-weight: var(--font-semi);
-}
-
-input {
-	appearance: none;
-	font-family: var(--font-sans);
-	font-size: var(--font-md);
-	font-weight: var(--font-norm);
-	padding: var(--unit);
-	border: 1px solid var(--gray-1);
-	border-radius: var(--br-3);
-	background: var(--white);
-	position: relative;
-}
-input[type='checkbox'] {
-	appearance: initial;
-}
-input[type='checkbox']:has(label) {
-	display: inline-flex;
-}
-
-button,
-.button {
-	appearance: none;
-	background: var(--background);
-	color: var(--foreground);
-	font-family: var(--font-sans);
-	font-size: var(--font-md);
-	font-weight: var(--font-semi);
-	border: 2px solid var(--gray-2);
-	box-shadow: 0 2px 0 var(--gray-2);
-	border-radius: var(--br-3);
-	padding: calc(0.5 * var(--unit)) calc(1.5 * var(--unit));
-	cursor: pointer;
-	white-space: nowrap;
+.terminal a {
+	color: currentcolor;
+	text-decoration-line: underline;
+	text-decoration-style: solid;
+	text-decoration-skip-ink: auto;
+	text-decoration-color: var(--terminal-stroke-color);
+	text-decoration-thickness: 2px;
+	text-underline-offset: 30%;
+	text-underline-position: from-font;
 	&:hover,
 	&:focus {
-		filter: brightness(1);
-		border: 2px solid var(--gray-2);
-		box-shadow: 0 3px 0 var(--gray-2);
-		transform: translateY(-1px);
+		background: var(--terminal-inverted-background);
+		color: var(--terminal-inverted-color);
+		text-decoration-color: transparent;
 	}
-	&:active {
-		transform: translateY(2px);
-		box-shadow: none;
-	}
-	&.primary {
-		background: teal;
-		color: var(--white);
-		box-shadow: 0 2px 0 #056767;
-		&:hover,
-		&:focus {
-			box-shadow: 0 3px 0 #056767;
-		}
-		&:active {
-			box-shadow: none;
-		}
-		&:disabled {
-			&:hover,
-			&:focus {
-				box-shadow: 0 2px 0 #056767;
-				transform: none;
-			}
-		}
-	}
-	&:disabled {
-		cursor: not-allowed;
-		opacity: var(--o-50);
-		&:hover,
-		&:focus {
-			filter: brightness(1);
-			border: 2px solid var(--gray-2);
-			box-shadow: 0 2px 0 var(--gray-2);
-			transform: none;
-		}
-	}
-}
-
-a {
-	color: var(--interact);
-	&.button {
-		text-decoration: none;
-	}
-	&:hover,
-	&:focus {
-		filter: brightness(1.25);
-	}
-}
-
-.card {
-	display: flex;
-	flex-direction: column;
-	gap: calc(2 * var(--unit));
-	/* min-width: min(100%, 32rem); */
-
-	background: var(--white);
-	padding: calc(3 * var(--unit));
-	border: 1px solid var(--gray-1);
-	border-radius: var(--br-3);
-
-	border-bottom-width: 3px;
-}
-
-.row {
-	display: flex;
-}
-
-.column {
-	flex: 1 1 auto;
-	display: flex;
-	flex-direction: column;
-	gap: calc(2 * var(--unit));
-}
-
-.page {
-	margin: 0 auto;
-	padding: calc(1 * var(--unit)) calc(3 * var(--unit)) calc(6 * var(--unit));
-	width: 100%;
-	max-width: 48rem;
-}
-
-.fullscreen {
-	flex: 1 1 auto;
-	min-height: 100%;
-	min-width: 100%;
-}
-
-.centered {
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
-}
-
-.xs {
-	font-size: var(--font-xs);
-}
-
-.sm {
-	font-size: var(--font-sm);
-}
-
-.md {
-	font-size: var(--font-md);
-}
-
-.lg {
-	font-size: var(--font-lg);
-}
-
-.xl {
-	font-size: var(--font-xl);
-}
-
-@keyframes spin {
-	0% {
-		transform: rotate(0deg);
-	}
-	100% {
-		transform: rotate(360deg);
-	}
-}
-
-.spin {
-	animation: spin 2s linear infinite;
 }
