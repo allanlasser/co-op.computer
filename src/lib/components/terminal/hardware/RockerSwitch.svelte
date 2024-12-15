@@ -1,20 +1,27 @@
 <script lang="ts">
+	import { Minus, Circle } from 'lucide-svelte';
+
 	export let on = false;
 </script>
 
-<div class="mid">
+<div class="container" class:illuminated={on}>
 	<label class="rocker">
 		<input type="checkbox" bind:checked={on} />
-		<span class="switch-left">On</span>
-		<span class="switch-right">Off</span>
+		<span class="switch-on"><Minus size={20} /></span>
+		<span class="switch-off"><Circle size={20} /></span>
 	</label>
 </div>
 
 <style>
-	.mid {
+	.container {
 		display: flex;
 		align-items: center;
 		justify-content: center;
+		filter: brightness(0.75);
+	}
+
+	.container.illuminated {
+		filter: brightness(1.05);
 	}
 
 	/* Switch starts here */
@@ -33,23 +40,31 @@
 		font-weight: bold;
 		text-align: center;
 		text-transform: uppercase;
-		color: #888;
-		width: 7em;
-		height: 4em;
-		overflow: hidden;
-		border-bottom: 0.5em solid #eee;
+		display: flex;
+		background-color: #6a210b;
+		&::before {
+			content: '';
+			position: absolute;
+			width: 0.4em;
+			right: -0.35em;
+			bottom: 0;
+			height: 1.25em;
+			background-color: #6a210b;
+		}
 	}
 
-	.rocker::before {
-		content: '';
-		position: absolute;
-		top: 0.5em;
-		left: 0;
-		right: 0;
-		bottom: 0;
-		background-color: #999;
-		border: 0.5em solid #eee;
-		border-bottom: 0;
+	.illuminated .rocker {
+		position: relative;
+		background-color: #a3310f;
+		&::before {
+			content: '';
+			position: absolute;
+			width: 0.4em;
+			left: -0.35em;
+			bottom: 0;
+			height: 1.25em;
+			background-color: #a3310f;
+		}
 	}
 
 	.rocker input {
@@ -58,57 +73,94 @@
 		height: 0;
 	}
 
-	.switch-left,
-	.switch-right {
+	.switch-on,
+	.switch-off {
+		position: relative;
 		cursor: pointer;
-		position: absolute;
 		display: flex;
 		align-items: center;
 		justify-content: center;
 		height: 2.5em;
 		width: 3em;
-		transition: 0.2s;
+		color: #fbefe0;
+		background-color: #cc522c;
 	}
 
-	.switch-left {
+	.switch-off {
+		transform: rotateY(-15deg) skewY(-15deg) translateY(-0.4em);
+		&::before {
+			content: '';
+			position: absolute;
+			width: 0.4em;
+			height: 2.45em;
+			right: -0.4em;
+			bottom: -0.45em;
+			transform: skewY(65deg);
+			background-color: #872d12;
+		}
+	}
+	.switch-on {
+		transform: rotateY(0deg) skewY(0deg) translateY(0);
+	}
+	.illuminated .switch-off {
+		transform: rotateY(0deg) skewY(0deg) translateY(0);
+		&::before {
+			content: unset;
+		}
+	}
+	.illuminated .switch-on {
+		background-color: #ff6637;
+		transform: rotateY(15deg) skewY(15deg) translateY(-0.4em);
+		filter: drop-shadow(0px 0px 1em #ff6637);
+		&::before {
+			content: '';
+			position: absolute;
+			width: 0.4em;
+			height: 2.45em;
+			left: -0.4em;
+			bottom: -0.45em;
+			transform: skewY(-65deg);
+			background-color: #dc4112;
+		}
+	}
+
+	/* .switch-on {
 		height: 2.4em;
 		width: 2.75em;
 		left: 0.85em;
 		bottom: 0.4em;
-		background-color: #ddd;
-		transform: rotate(15deg) skewX(15deg);
+		transform: rotateY(15deg) skewY(15deg);
 	}
 
-	.switch-right {
+	.switch-off {
 		right: 0.5em;
 		bottom: 0;
-		background-color: #bd5757;
 		color: #fff;
 	}
 
-	.switch-left::before,
-	.switch-right::before {
+	.switch-on::before,
+	.switch-off::before {
 		content: '';
 		position: absolute;
 		width: 0.4em;
 		height: 2.45em;
 		bottom: -0.45em;
-		background-color: #ccc;
+		background-color: #742810;
 		transform: skewY(-65deg);
 	}
 
-	.switch-left::before {
+	.switch-on::before {
 		left: -0.4em;
 	}
 
-	.switch-right::before {
+	.switch-off::before {
 		right: -0.375em;
 		background-color: transparent;
 		transform: skewY(65deg);
 	}
 
-	input:checked + .switch-left {
-		background-color: #0084d0;
+	input:checked + .switch-on {
+		background-color: #ff6637;
 		color: #fff;
 		bottom: 0px;
 		left: 0.5em;
@@ -117,14 +169,14 @@
 		transform: rotate(0deg) skewX(0deg);
 	}
 
-	input:checked + .switch-left::before {
+	input:checked + .switch-on::before {
 		background-color: transparent;
 		width: 3.0833em;
 	}
 
-	input:checked + .switch-left + .switch-right {
-		background-color: #ddd;
-		color: #888;
+	input:checked + .switch-on + .switch-off {
+		background-color: #cc522c;
+		color: #fbefe0;
 		bottom: 0.4em;
 		right: 0.8em;
 		height: 2.4em;
@@ -132,24 +184,24 @@
 		transform: rotate(-15deg) skewX(-15deg);
 	}
 
-	input:checked + .switch-left + .switch-right::before {
-		background-color: #ccc;
+	input:checked + .switch-on + .switch-off::before {
+		background-color: #742810;
 	}
 
-	/* Keyboard Users */
-	input:focus + .switch-left {
-		color: #333;
+	
+	input:focus + .switch-on {
+		color: #fbefe0;
 	}
 
-	input:checked:focus + .switch-left {
-		color: #fff;
+	input:checked:focus + .switch-on {
+		color: #fbefe0;
 	}
 
-	input:focus + .switch-left + .switch-right {
-		color: #fff;
+	input:focus + .switch-on + .switch-off {
+		color: #fbefe0;
 	}
 
-	input:checked:focus + .switch-left + .switch-right {
-		color: #333;
-	}
+	input:checked:focus + .switch-on + .switch-off {
+		color: #fbefe0;
+	} */
 </style>
