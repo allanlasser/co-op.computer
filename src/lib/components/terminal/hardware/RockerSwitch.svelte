@@ -7,8 +7,8 @@
 <div class="container" class:illuminated={on}>
 	<label class="rocker">
 		<input type="checkbox" bind:checked={on} />
-		<span class="switch-on"><Minus size={20} /></span>
-		<span class="switch-off"><Circle size={20} /></span>
+		<span class="switch-on" on:click={() => (on = false)}><Minus size={20} /></span>
+		<span class="switch-off" on:click={() => (on = true)}><Circle size={20} /></span>
 	</label>
 </div>
 
@@ -26,6 +26,7 @@
 
 	/* Switch starts here */
 	.rocker {
+		box-sizing: content-box;
 		display: inline-block;
 		position: relative;
 		/*
@@ -42,29 +43,13 @@
 		text-transform: uppercase;
 		display: flex;
 		background-color: #6a210b;
-		&::before {
-			content: '';
-			position: absolute;
-			width: 0.4em;
-			right: -0.35em;
-			bottom: 0;
-			height: 1.25em;
-			background-color: #6a210b;
-		}
+		outline: 1px solid var(--hardware-inset);
+		border-radius: 4px;
 	}
 
 	.illuminated .rocker {
 		position: relative;
 		background-color: #a3310f;
-		&::before {
-			content: '';
-			position: absolute;
-			width: 0.4em;
-			left: -0.35em;
-			bottom: 0;
-			height: 1.25em;
-			background-color: #a3310f;
-		}
 	}
 
 	.rocker input {
@@ -87,40 +72,45 @@
 	}
 
 	.switch-off {
-		transform: rotateY(-15deg) skewY(-15deg) translateY(-0.4em);
-		&::before {
-			content: '';
-			position: absolute;
-			width: 0.4em;
-			height: 2.45em;
-			right: -0.4em;
-			bottom: -0.45em;
-			transform: skewY(65deg);
-			background-color: #872d12;
-		}
-	}
-	.switch-on {
-		transform: rotateY(0deg) skewY(0deg) translateY(0);
-	}
-	.illuminated .switch-off {
 		transform: rotateY(0deg) skewY(0deg) translateY(0);
 		&::before {
 			content: unset;
 		}
 	}
-	.illuminated .switch-on {
-		background-color: #ff6637;
-		transform: rotateY(15deg) skewY(15deg) translateY(-0.4em);
-		filter: drop-shadow(0px 0px 1em #ff6637);
+	.switch-on {
+		transform: rotateY(15deg) skewY(15deg) translateY(-0.4em) translateX(0.15em);
 		&::before {
 			content: '';
 			position: absolute;
 			width: 0.4em;
-			height: 2.45em;
+			height: 2.5em;
 			left: -0.4em;
 			bottom: -0.45em;
 			transform: skewY(-65deg);
-			background-color: #dc4112;
+			background-color: #a3310f;
+		}
+	}
+	.illuminated .switch-off {
+		transform: rotateY(-15deg) skewY(-15deg) translateY(-0.4em) translateX(-0.15em);
+		&::before {
+			content: '';
+			position: absolute;
+			width: 0.4em;
+			height: 2.5em;
+			right: -0.4em;
+			bottom: -0.5em;
+			transform: skewY(65deg);
+			background-color: #872d12;
+		}
+	}
+	.illuminated .switch-on {
+		border-top-left-radius: 4px;
+		border-bottom-left-radius: 4px;
+		background-color: #ff6637;
+		filter: drop-shadow(0px 0px 1em #ff6637);
+		transform: rotateY(0deg) skewY(0deg) translateY(0);
+		&::before {
+			content: unset;
 		}
 	}
 
