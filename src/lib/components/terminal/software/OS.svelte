@@ -1,9 +1,17 @@
 <script lang="ts">
+	import { PUBLIC_VERSION } from '$env/static/public';
 	import { fade } from 'svelte/transition';
+	import { page } from '$app/stores';
+	import type { User } from '@/lib/db/schema';
+	import type { Maybe, Nullable } from '@/lib/utils/types';
+	import Navbar from './NavBar.svelte';
+	import Toolbar from './Toolbar.svelte';
+
+	export let user: Maybe<Nullable<User>> = undefined;
 </script>
 
 <div class="system" transition:fade={{ delay: 200 }}>
-	<div class="system-logo">
+	<div class="system-mark">
 		<svg
 			xmlns="http://www.w3.org/2000/svg"
 			width="200"
@@ -27,9 +35,22 @@
 			</g>
 		</svg>
 	</div>
-	<header></header>
-	<!-- <slot /> -->
-	<footer></footer>
+	{#if user}
+		<header>
+			<Navbar route={$page?.route?.id} />
+		</header>
+		<slot />
+		<footer>
+			<Toolbar>
+				<div>CO-OP_OS {PUBLIC_VERSION}</div>
+				{#if user}
+					<div>
+						Welcome back, <a href="/account">{user.username}</a>
+					</div>
+				{/if}
+			</Toolbar>
+		</footer>
+	{/if}
 </div>
 
 <style>
@@ -38,14 +59,13 @@
 		width: 100%;
 		height: 100%;
 		display: flex;
-		padding: 0.75rem;
 		flex-direction: column;
 		justify-content: space-between;
-		align-items: center;
+		align-items: stretch;
 		align-self: stretch;
 		position: relative;
 	}
-	.system-logo {
+	.system-mark {
 		position: absolute;
 		top: 0;
 		right: 0;
@@ -54,9 +74,20 @@
 		display: flex;
 		justify-content: center;
 		align-items: center;
+		pointer-events: none;
 	}
-	.system-logo svg {
+	.system-mark svg {
 		width: 12.5rem;
 		height: 12.5rem;
 	}
+	/* header {
+		border-top-right-radius: 12px;
+		border-top-left-radius: 12px;
+		overflow: hidden;
+	}
+	footer {
+		border-bottom-right-radius: 12px;
+		border-bottom-left-radius: 12px;
+		overflow: hidden;
+	} */
 </style>

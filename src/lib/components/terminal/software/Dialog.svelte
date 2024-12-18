@@ -47,11 +47,17 @@
 		top: 0.75rem;
 		border: none;
 		border-radius: 0px;
-		color: currentcolor;
+		color: currentColor;
 		background: var(--terminal-background);
 		cursor: pointer;
 		&:hover,
 		&:focus {
+			background: var(--terminal-fill-color);
+		}
+		&:focus {
+			outline: 2px solid currentColor;
+		}
+		&:active {
 			color: var(--terminal-inverted-color);
 			background: var(--terminal-inverted-background);
 			border: none;

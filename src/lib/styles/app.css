@@ -5,11 +5,13 @@
 	--terminal-background: #1f2233;
 	--terminal-color: #ffa784;
 	--terminal-stroke-color: rgba(255, 167, 132, 0.5);
+	--terminal-fill-color: rgba(255, 167, 132, 0.25);
 
 	/* Inverted colors for highlighted areas */
 	--terminal-inverted-background: var(--terminal-color);
 	--terminal-inverted-color: var(--terminal-background);
 	--terminal-inverted-stroke-color: rgba(31, 34, 51, 0.5);
+	--terminal-inverted-fill-color: rgba(31, 34, 51, 0.25);
 
 	/* Hardware colors */
 	--hardware: #57a494;
@@ -65,8 +67,10 @@
 	text-underline-position: from-font;
 	&:hover,
 	&:focus {
-		background: var(--terminal-inverted-background);
-		color: var(--terminal-inverted-color);
-		text-decoration-color: transparent;
+		text-decoration-color: var(--terminal-stroke-color);
+		background: var(--terminal-fill-color);
+	}
+	&:focus {
+		outline: 2px solid currentColor;
 	}
 }

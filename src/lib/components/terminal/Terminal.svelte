@@ -1,13 +1,15 @@
 <script lang="ts">
-	import { PowerIcon, PowerOff } from 'lucide-svelte';
 	import { get, writable } from 'svelte/store';
 	import RockerSwitch from './hardware/RockerSwitch.svelte';
 	import Screen from './hardware/Screen.svelte';
 	import Logo from './hardware/Logo.svelte';
-	import Vents from './hardware/Vents.svelte';
 	import StatusLED, { type Status } from './hardware/StatusLED.svelte';
-	import Dialog from '../ui/Dialog.svelte';
+	import Dialog from './software/Dialog.svelte';
 	import OS from './software/OS.svelte';
+	import type { Maybe, Nullable } from '@/lib/utils/types';
+	import type { User } from '@/lib/db/schema';
+
+	export let user: Maybe<Nullable<User>> = undefined;
 
 	const isPoweredOn = writable(false);
 	const isSignedIn = writable(false);
@@ -40,10 +42,10 @@
 	$: status = $isPoweredOn ? 'ok' : 'idle';
 </script>
 
-<div class="terminal" class:powered-off={!$isPoweredOn}>
+<div class="terminal">
 	<Screen powered={$isPoweredOn}>
 		{#if $isPoweredOn}
-			<OS>
+			<OS {user}>
 				<Dialog hideClose>
 					<p>Welcome to CO-OP!</p>
 				</Dialog>

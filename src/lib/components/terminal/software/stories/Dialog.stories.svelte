@@ -4,7 +4,7 @@
 	import DialogSvelte from '../Dialog.svelte';
 
 	export const meta: Meta = {
-		title: 'UI / Dialog',
+		title: 'Terminal / Software / Dialog',
 		component: DialogSvelte,
 		parameters: {
 			layout: 'centered'

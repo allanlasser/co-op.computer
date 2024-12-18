@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/svelte';
 import TerminalSvelte from '../Terminal.svelte';
+import type { User } from '@/lib/db/schema';
 
 const meta = {
 	title: 'Terminal',
@@ -12,4 +13,10 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const Terminal: Story = {};
+export const Terminal: Story = {
+	args: {
+		user: {
+			username: 'allan'
+		} as User
+	}
+};
